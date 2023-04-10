@@ -1,7 +1,8 @@
 import React from "react";
 import {discoverMovies} from "../model/fetchSource.js"
+import MovieCardView from "../view/movieCardView.js";
 
-export default function movieCardPresenter(){
+export default function MovieCardPresenter(){
     const [promise, setPromise] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [error, setError] = React.useState(null);
@@ -19,13 +20,16 @@ export default function movieCardPresenter(){
         return changedAgainACB;
     }
 
-    setPromise(discoverMovies)
+    function mountACB(){
+        setPromise(discoverMovies())
+    }
 
+    React.useEffect(mountACB, []);
     React.useEffect(promiseHasChangedACB, [promise]);
 
     return(
-        <movieCardView>
+        <MovieCardView>
             
-        </movieCardView>
+        </MovieCardView>
     )
 }
