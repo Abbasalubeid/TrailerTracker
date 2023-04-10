@@ -9,7 +9,7 @@ function treatHTTPResponseACB(response) {
 }
 
 function transformACB(object) {
-    console.log(object);
+    return object.results;
 }
 
 function discoverMovies(){
