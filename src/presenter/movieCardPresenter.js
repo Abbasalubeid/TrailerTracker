@@ -19,6 +19,13 @@ export default function movieCardPresenter(){
         return changedAgainACB;
     }
 
+    setPromise(discoverMovies)
 
-    React.useEffect(promiseHasChangedACB, []);
+    React.useEffect(promiseHasChangedACB, [promise]);
+
+    return(
+        <movieCardView>
+            
+        </movieCardView>
+    )
 }
