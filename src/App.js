@@ -1,8 +1,9 @@
 import './styles/App.css';
+import MovieCardPresenter from './presenter/movieCardPresenter';
 
 function App() {
   return (
-    <h1>Trailer-Tracker</h1>
+    <MovieCardPresenter/>
   );
 }
 
