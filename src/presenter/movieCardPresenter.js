@@ -27,9 +27,15 @@ export default function MovieCardPresenter(){
     React.useEffect(mountACB, []);
     React.useEffect(promiseHasChangedACB, [promise]);
 
-    return(
-        <MovieCardView>
-            
-        </MovieCardView>
-    )
+    return (
+        <div>
+          {data &&
+            data.map((movie) => (
+              <MovieCardView
+                key={movie.id}
+                title={movie.title}
+              />
+            ))}
+        </div>
+      );
 }
