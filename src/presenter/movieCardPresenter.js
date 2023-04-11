@@ -8,7 +8,6 @@ export default function MovieCardPresenter(){
 
     function mountACB(){
         discoverMovies().then((movies) => setPopularMovies(movies));
-        console.log(popularMovies);
     }
 
     React.useEffect(mountACB, []);
@@ -18,8 +17,8 @@ export default function MovieCardPresenter(){
           {popularMovies &&
             popularMovies.map((movie) => (
               <MovieCardView
-                key={movie.id}
-                title={movie.title}
+                key = {movie.id}
+                movie = {movie}
               />
             ))}
         </div>
