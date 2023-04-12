@@ -13,7 +13,7 @@ export default function MovieCardPresenter(){
     React.useEffect(mountACB, []);
 
     return (
-        <div>
+        <div className="movie-card-container">
           {popularMovies &&
             popularMovies.map((movie) => (
               <MovieCardView
