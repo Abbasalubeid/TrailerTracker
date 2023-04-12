@@ -9,19 +9,27 @@ export default function MovieCardPresenter(){
 
     const responsive = {
         superLargeDesktop: {
-          breakpoint: { max: 4000, min: 3000 },
-          items: 10
+            breakpoint: { max: 4000, min: 1700 },
+            items: 10
+          },
+          LargerDesktop: {
+            breakpoint: { max: 1700, min: 1300},
+            items: 8
+          },
+        LargeDesktop: {
+          breakpoint: { max: 1300, min: 750},
+          items: 5
         },
         desktop: {
-          breakpoint: { max: 3000, min: 1024 },
+          breakpoint: { max: 850, min: 600 },
           items: 3
         },
         tablet: {
-          breakpoint: { max: 1024, min: 464 },
+          breakpoint: { max: 600, min: 380 },
           items: 2
         },
         mobile: {
-          breakpoint: { max: 464, min: 0 },
+          breakpoint: { max: 380, min: 0 },
           items: 1
         }
       };
@@ -33,7 +41,11 @@ export default function MovieCardPresenter(){
     React.useEffect(mountACB, []);
 
     return (
-        <Carousel responsive={responsive} className="movie-card-container">
+        <Carousel 
+        responsive={responsive} 
+        showDots={true}
+        keyBoardControl={true}
+        >
           {popularMovies &&
             popularMovies.map((movie) => (
               <MovieCardView
