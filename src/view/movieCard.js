@@ -2,7 +2,7 @@ import React from "react";
 import { IMAGE_URL } from "../model/apiConfig.js";
 import "../styles/movieCard.css";
 
-export default function MovieCardView(props) {
+export default function MovieCard(props) {
   return (
     <div className="movie-card">
       {props.movie ? (
