@@ -1,9 +1,11 @@
 import './styles/App.css';
-import MovieCardPresenter from './presenter/movieCardPresenter';
+import HomepagePresenter from './presenter/homepagePresenter';
 
 function App() {
   return (
-    <MovieCardPresenter/>
+    <div className='App'>
+    <HomepagePresenter/>
+    </div>
   );
 }
 
