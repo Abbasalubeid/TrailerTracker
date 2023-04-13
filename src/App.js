@@ -20,6 +20,11 @@ function App() {
           </HomepagePresenter>
         </div>
       } />
+      <Route path='/discover' element={
+        <div className={!navVisible ? "page" : "page page-with-navbar"}>
+          <h1>Discover</h1>
+        </div>
+      } />
     </Routes>
   </div>
   );
