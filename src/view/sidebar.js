@@ -5,14 +5,23 @@ import {
     FaHome,
     FaCompass,
     FaAngleRight,
-	FaAngleLeft, 
+	FaAngleLeft,
+    FaBars 
 } from 'react-icons/fa';
 
 export default function Sidebar(props) {
-const ICON_SIZE = 20;
+  const ICON_SIZE = 20;
 
-	return (
+  return (
     <>
+      <div className="mobile-nav">
+        <button
+          className="mobile-nav-btn"
+          onClick={() => props.show(!props.visible)}
+        >
+          <FaBars size={24} />
+        </button>
+      </div>
       <nav className={!props.visible ? "sidebar" : ""}>
         <button
           type="button"
@@ -26,15 +35,15 @@ const ICON_SIZE = 20;
           )}
         </button>
         <div>
-            <NavLink to="/home" className="nav-link">
-              <FaHome size={20} />
-              <span>Home</span>
-            </NavLink>
-            <NavLink to="/discover" className="nav-link">
-              <FaCompass size={ICON_SIZE} />
-              <span>Discover</span>
-            </NavLink>
-          </div>
+          <NavLink to="/home" className="nav-link">
+            <FaHome size={20} />
+            <span>Home</span>
+          </NavLink>
+          <NavLink to="/discover" className="nav-link">
+            <FaCompass size={ICON_SIZE} />
+            <span>Discover</span>
+          </NavLink>
+        </div>
       </nav>
     </>
   );
