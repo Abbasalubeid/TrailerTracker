@@ -13,7 +13,6 @@ export default function MovieCardView(props) {
         />
       ) : null}
       <div className="movie-info">
-        {console.log(props.movie)}
         <h3>{props.movie.title}</h3>
         <p>{Number(props.movie.release_date.split("-")[0])}</p>
       </div>
