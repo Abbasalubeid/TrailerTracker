@@ -8,9 +8,10 @@ nav{
 	justify-content: space-between;
 	width:15%;
 	min-height: 100vh;
-	background-color: #C60C30;
+	background-color: #2a2828;
 	padding:2rem 1rem 1rem 1rem;
 	transition: transform 1s;
+    z-index: 100;
 }
 
 .sidebar{
@@ -29,12 +30,31 @@ nav{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #C60C30;
+	background-color: #2a2828;
 	outline: none;
 	border: none;
 	font-size: 1rem;
 	padding: 5px 10px;
 	cursor: pointer;
 	color: #fff;
+}
+
+.nav-link{
+	display: flex;
+	align-items: center;
+	color: #fff;
+	text-decoration: none;
+	padding: 10px 1rem;
+	border-radius: 5px;
+	margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.nav-link:hover, .nav-btn:hover{
+	color: #008000;
+}
+
+.nav-link span{
+	margin-left: 10px;
 }
 

@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../styles/sidebar.css";
 import {
     FaHome,
+    FaCompass,
     FaAngleRight,
 	FaAngleLeft, 
 } from 'react-icons/fa';
@@ -24,10 +25,14 @@ const ICON_SIZE = 20;
             <FaAngleLeft size={30} />
           )}
         </button>
-          <div className="links nav-top">
+        <div>
             <NavLink to="/home" className="nav-link">
               <FaHome size={20} />
               <span>Home</span>
+            </NavLink>
+            <NavLink to="/discover" className="nav-link">
+              <FaCompass size={ICON_SIZE} />
+              <span>Discover</span>
             </NavLink>
           </div>
       </nav>
