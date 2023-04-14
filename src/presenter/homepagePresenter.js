@@ -1,5 +1,5 @@
 import React from "react";
-import {discoverMovies} from "../model/fetchSource.js"
+import {discoverMovies, trendingMovies} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
 import MoviePoster from "../view/moviePoster.js";
 import Carousel from 'react-multi-carousel';
@@ -7,6 +7,7 @@ import 'react-multi-carousel/lib/styles.css';
 
 export default function HomepagePresenter(){
     const [popularMovies, setPopularMovies] = React.useState([]);
+    const [trendMovies, setTrendMovies] = React.useState([]);
 
     const responsive = {
         superLargeDesktop: {
@@ -37,6 +38,7 @@ export default function HomepagePresenter(){
 
     function mountACB(){
         discoverMovies().then((movies) => setPopularMovies(movies));
+        trendingMovies().then((movies) => console.log(movies));
     }
 
     React.useEffect(mountACB, []);
