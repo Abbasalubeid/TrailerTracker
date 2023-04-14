@@ -3,7 +3,6 @@
     height: fit-content;
     max-width: 420px;
     margin: 25px;
-    margin-bottom: 80px;
   }
 
   .poster-info {
@@ -24,18 +23,43 @@
     align-items: center;
 }
 
-
-/* Single poster view*/
-@media (max-width: 649px) {
+@media (max-width: 1350px) {
   .movie-poster {
     max-width: 340px;
-    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 950px) {
+  .movie-poster {
+    max-width: 380px;
+  }
+}
+
+/* Single poster view*/
+@media (max-width: 629px) {
+  .movie-poster {
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 570px) {
+  .movie-poster {
+    max-width: 340px;
   }
 }
 
 @media (max-width: 380px) {
   .movie-poster {
-    max-width: 320px;
-    margin-bottom: 50px;
+    max-width: 300px;
   }
+}
+
+@media (max-width: 300px) {
+  .movie-poster {
+    max-width: 220px;
+  }
+  .poster-info {
+    font-size: 8px;
+  }
+
 }
