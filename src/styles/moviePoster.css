@@ -1,6 +1,6 @@
 .movie-poster {
     width: 100%;
-    max-width: 450px;
+    max-width: 400px;
     margin: 25px;
     margin-bottom: 80px;
   }
@@ -21,4 +21,25 @@
     flex-direction: column;
     justify-content:center;
     align-items: center;
+}
+
+@media (max-width: 820px) {
+  .movie-poster {
+    max-width: 345px;
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+  .movie-poster {
+    max-width: 280px;
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 300px) {
+  .movie-poster {
+    max-width: 220px;
+    margin-bottom: 50px;
+  }
 }
