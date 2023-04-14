@@ -1,10 +1,17 @@
 .movie-poster {
     width: 100%;
-    max-width: 510px;
+    max-width: 450px;
+    height: 250px;
     margin: 25px;
+    margin-bottom: 80px;
     border-radius: 15px;
     box-shadow: 0px 0px 10px rgba(24, 90, 24, 1.5);
-    position: relative;
+
     cursor: pointer;
   }
 
+.poster-image {
+    width: 100%;
+    transition: all 0.3s ease-out;
+    border-radius: 15px;
+  }
