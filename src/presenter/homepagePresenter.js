@@ -1,9 +1,6 @@
 import React from "react";
 import {topRatedMovies, trendingMovies, upcomingMovies} from "../model/fetchSource.js"
-import MovieCard from "../view/movieCard.js";
-import MoviePoster from "../view/moviePoster.js";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import MovieCarousel from "../view/movieCarousel.js"
 
 export default function HomepagePresenter(){
     const [popularMovies, setPopularMovies] = React.useState([]);
@@ -37,50 +34,14 @@ export default function HomepagePresenter(){
     React.useEffect(mountACB, []);
 
     return (
-        <>
-          <h1 className="title">Trending</h1>
-          <Carousel 
-        responsive = {responsivePosters} 
-        keyBoardControl = {true}
-        itemClass="carousel-item-padding-40-px"
-        >
-          {trendMovies &&
-            trendMovies.map((movie) => (
-              <MoviePoster
-                key = {movie.id}
-                movie = {movie}
-              />
-            ))}
-        </Carousel>
-        <h1 className="title">Top rated</h1>    
-        <Carousel 
-        responsive={responsiveCards} 
-        keyBoardControl={true}
-        itemClass="carousel-item-padding-40-px"
-        >
-          {popularMovies &&
-            popularMovies.map((movie) => (
-              <MovieCard
-                key = {movie.id}
-                movie = {movie}
-              />
-            ))}
-        </Carousel>
-        <h1 className="title">Upcoming</h1>    
-        <Carousel 
-        responsive={responsiveCards} 
-        keyBoardControl={true}
-        itemClass="carousel-item-padding-40-px"
-        >
-          {upcomMovies &&
-            upcomMovies.map((movie) => (
-              <MovieCard
-                key = {movie.id}
-                movie = {movie}
-              />
-            ))}
-        </Carousel>
-        </>
-
-      );
+      <>
+        <h1 className="title">Trending</h1>
+        <MovieCarousel movies={trendMovies} responsiveConfig={responsivePosters} 
+        poster={true}/>
+        <h1 className="title">Top rated</h1>
+        <MovieCarousel movies={popularMovies} responsiveConfig={responsiveCards} />
+        <h1 className="title">Upcoming</h1>
+        <MovieCarousel movies={upcomMovies} responsiveConfig={responsiveCards} />
+      </>
+    );
 }
