@@ -1,5 +1,5 @@
 import React from "react";
-import {discoverMovies, trendingMovies} from "../model/fetchSource.js"
+import {topRatedMovies, trendingMovies} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
 import MoviePoster from "../view/moviePoster.js";
 import Carousel from "react-multi-carousel";
@@ -28,7 +28,7 @@ export default function HomepagePresenter(){
     };
 
     function mountACB(){
-        discoverMovies().then((movies) => setPopularMovies(movies));
+        topRatedMovies().then((movies) => setPopularMovies(movies));
         trendingMovies().then((movies) => setTrendMovies(movies));
     }
 
@@ -50,7 +50,7 @@ export default function HomepagePresenter(){
               />
             ))}
         </Carousel>
-        <h1 className="title">Discover</h1>    
+        <h1 className="title">Top rated</h1>    
         <Carousel 
         responsive={responsiveCards} 
         keyBoardControl={true}
