@@ -1,5 +1,5 @@
 import React from "react";
-import {topRatedMovies, trendingMovies} from "../model/fetchSource.js"
+import {topRatedMovies, trendingMovies, upcomingMovies} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
 import MoviePoster from "../view/moviePoster.js";
 import Carousel from "react-multi-carousel";
@@ -8,6 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 export default function HomepagePresenter(){
     const [popularMovies, setPopularMovies] = React.useState([]);
     const [trendMovies, setTrendMovies] = React.useState([]);
+    const [upcomMovies, setupcomMovies] = React.useState([]);
 
     const responsiveCards = {
       superLargeDesktop: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -30,6 +31,7 @@ export default function HomepagePresenter(){
     function mountACB(){
         topRatedMovies().then((movies) => setPopularMovies(movies));
         trendingMovies().then((movies) => setTrendMovies(movies));
+        upcomingMovies().then((movies) => setupcomMovies(movies));
     }
 
     React.useEffect(mountACB, []);
@@ -58,6 +60,20 @@ export default function HomepagePresenter(){
         >
           {popularMovies &&
             popularMovies.map((movie) => (
+              <MovieCard
+                key = {movie.id}
+                movie = {movie}
+              />
+            ))}
+        </Carousel>
+        <h1 className="title">Upcoming</h1>    
+        <Carousel 
+        responsive={responsiveCards} 
+        keyBoardControl={true}
+        itemClass="carousel-item-padding-40-px"
+        >
+          {upcomMovies &&
+            upcomMovies.map((movie) => (
               <MovieCard
                 key = {movie.id}
                 movie = {movie}
