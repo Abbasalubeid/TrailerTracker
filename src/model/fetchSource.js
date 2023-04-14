@@ -12,12 +12,12 @@ function transformACB(object) {
     return object.results;
 }
 
-function discoverMovies(){
-    return fetch(BASE_URL + "movie/popular?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
+function topRatedMovies(){
+    return fetch(BASE_URL + "movie/top_rated?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
 }
 
 function trendingMovies(){
     return fetch(BASE_URL + "trending/movie/day?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
 }
 
-export{discoverMovies, trendingMovies}
+export{topRatedMovies, trendingMovies}
