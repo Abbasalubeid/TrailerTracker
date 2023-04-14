@@ -4,15 +4,21 @@ import "../styles/moviePoster.css";
 
 export default function MoviePoster(props) {
 
-    const test = "/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg"
+    const poster = "/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg"
+    const title = "The Super Mario Bros. Movie"
+    const date = "2023-04-05"
 
     return (
-        <div className="movie-poster">
+        <div className="movie-card movie-poster">
             <img
-              className=""
-              src={`${IMAGE_URL}${test}`}
+              className="movie-image"
+              src={`${IMAGE_URL}${poster}`}
               alt={props.title}
             />
-        </div>
+        <div className="poster-info">
+        <h3>{title}</h3>
+        <p>{Number(date.split("-")[0])}</p>
+      </div>
+    </div>
       );
 }
