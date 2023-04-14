@@ -1,6 +1,7 @@
 import React from "react";
 import {discoverMovies} from "../model/fetchSource.js"
-import MovieCardView from "../view/movieCardView.js";
+import MovieCard from "../view/movieCard.js";
+import MoviePoster from "../view/moviePoster.js";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
@@ -10,7 +11,7 @@ export default function HomepagePresenter(){
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1700 },
-            items: 7
+            items: 6
           },
         LargerDesktop: {
             breakpoint: { max: 1700, min: 1100},
@@ -18,7 +19,7 @@ export default function HomepagePresenter(){
           },
         desktop: {
           breakpoint: { max: 1100, min: 850},
-          items: 4
+          items: 3
         },
         largerTablet: {
           breakpoint: { max: 850, min: 600 },
@@ -41,18 +42,22 @@ export default function HomepagePresenter(){
     React.useEffect(mountACB, []);
 
     return (
-        <Carousel 
+        <div>
+          <MoviePoster></MoviePoster>
+          <Carousel 
         responsive={responsive} 
         showDots={true}
         keyBoardControl={true}
         >
           {popularMovies &&
             popularMovies.map((movie) => (
-              <MovieCardView
+              <MovieCard
                 key = {movie.id}
                 movie = {movie}
               />
             ))}
         </Carousel>
+        </div>
+
       );
 }
