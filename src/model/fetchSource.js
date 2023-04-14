@@ -16,4 +16,8 @@ function discoverMovies(){
     return fetch(BASE_URL + "movie/popular?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
 }
 
-export{discoverMovies}
+function trendingMovies(){
+    return fetch(BASE_URL + "trending/movie/day?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
+}
+
+export{discoverMovies, trendingMovies}
