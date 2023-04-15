@@ -1,4 +1,4 @@
-.movie-card {
+.movie-card-carousel {
   width: 100%;
   max-width: 150px;
   margin: 2rem;
@@ -10,7 +10,7 @@
   cursor: pointer;
 }
 
-.movie-image {
+.movie-image-carousel {
   width: 100%;
   transition: all 0.3s ease-out;
   border-radius: 15px;
