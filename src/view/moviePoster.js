@@ -11,7 +11,10 @@ export default function MoviePoster(props) {
               src={`${IMAGE_URL}${props.movie.backdrop_path}`}
               alt={props.movie.title}
             />
-        <div className="poster-info">
+        <div className="poster poster-about">
+        <p>{props.movie.overview}</p>
+      </div>
+        <div className="poster poster-info">
         <h3>{props.movie.title}</h3>
         <p>{Number(props.movie.release_date.split("-")[0])}</p>
       </div>
