@@ -1,5 +1,6 @@
 import React from "react";
 import {discoverMovies} from "../model/fetchSource.js"
+import MovieCard from "../view/movieCard.js";
 
 export default function DiscoverPresenter(){
     const [movies, setMovies] = React.useState([]);
@@ -7,13 +8,15 @@ export default function DiscoverPresenter(){
     function mountACB(){
         discoverMovies().then((movies) => setMovies(movies));
     }
-    console.log(movies);
 
     React.useEffect(mountACB, []);
 
     return (
-        <>
-        Hello
-        </>
+      <>
+        {movies &&
+            movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+      </>
     );
 }
