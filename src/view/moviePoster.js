@@ -5,9 +5,9 @@ import "../styles/moviePoster.css";
 export default function MoviePoster(props) {
 
     return (
-        <div className="movie-card movie-poster">
+        <div className="movie-card-carousel movie-poster">
             <img
-              className="movie-image"
+              className="movie-image-carousel"
               src={`${IMAGE_URL}${props.movie.backdrop_path}`}
               alt={props.movie.title}
             />
