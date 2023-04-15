@@ -24,4 +24,8 @@ function upcomingMovies(){
     return fetch(BASE_URL + "movie/upcoming?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
 }
 
-export{topRatedMovies, trendingMovies, upcomingMovies}
+function discoverMovies(){
+    return fetch(BASE_URL + "movie/discover?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
+}
+
+export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies}
