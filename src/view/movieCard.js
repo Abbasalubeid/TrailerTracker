@@ -4,7 +4,7 @@ import "../styles/movieCard.css";
 
 export default function MovieCard(props) {
   return (
-    <div className={props.carousel ? "movie-card-carousel" : "movie-card"}>
+    <div className={props.carousel ? "movie-card-carousel" : ""}>
       {props.movie ? (
         <img
           className={props.carousel ? "movie-image-carousel" : "movie-image"}
