@@ -1,5 +1,6 @@
 import './styles/App.css';
 import HomepagePresenter from './presenter/homepagePresenter';
+import DiscoverPresenter from './presenter/discoverPresenter';
 import { Routes, Route,Navigate } from "react-router-dom";
 import React from 'react';
 import Sidebar from './view/sidebar';
@@ -22,7 +23,9 @@ function App() {
       } />
       <Route path='/discover' element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-          <h1>Discover</h1>
+          <DiscoverPresenter>
+            
+          </DiscoverPresenter>
         </div>
       } />
     </Routes>
