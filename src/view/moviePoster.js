@@ -4,8 +4,12 @@ import "../styles/moviePoster.css";
 
 export default function MoviePoster(props) {
 
+  function setCurrentMovieACB(){
+    console.log(props.movie.title);
+  }
+
     return (
-        <div className="movie-card-carousel movie-poster">
+        <div className="movie-card-carousel movie-poster" onClick={setCurrentMovieACB}>
             <img
               className="movie-image-carousel"
               src={`${IMAGE_URL}${props.movie.backdrop_path}`}
