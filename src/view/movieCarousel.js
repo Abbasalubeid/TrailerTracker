@@ -2,6 +2,7 @@ import MovieCard from "../view/movieCard.js";
 import MoviePoster from "../view/moviePoster.js";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import "../styles/movieCarousel.css"
 
 export default function MovieCarousel(props) {
     const MovieComponent = props.poster ?  MoviePoster : MovieCard;
@@ -19,6 +20,7 @@ export default function MovieCarousel(props) {
             key={movie.id}
             movie={movie}
             carousel={true}
+            onMovieChoice = {props.onMovieChoice}
           />
         ))}
     </Carousel>

@@ -2,7 +2,7 @@ import React from "react";
 import {topRatedMovies, trendingMovies, upcomingMovies} from "../model/fetchSource.js"
 import MovieCarousel from "../view/movieCarousel.js"
 
-export default function HomepagePresenter(){
+export default function HomepagePresenter(props){
     const [topRated, setTopRated] = React.useState([]);
     const [trendMovies, setTrendMovies] = React.useState([]);
     const [upcomMovies, setupcomMovies] = React.useState([]);
@@ -40,17 +40,24 @@ export default function HomepagePresenter(){
         upcomingMovies().then((movies) => setupcomMovies(movies));
     }
 
+    function setCurrentMovieACB(movie){
+      props.model.setCurrentMovie(movie);
+    }
+
     React.useEffect(mountACB, []);
 
     return (
       <>
         <MovieCarousel movies={trendMovies} responsiveConfig={responsivePosters} 
         poster={true}
-        title={"Trending"}/>
+        title={"Trending"}
+        onMovieChoice = {setCurrentMovieACB}/>
         <MovieCarousel movies={topRated} responsiveConfig={responsiveCards}
-        title={"Top rated"} />
+        title={"Top rated"}
+        onMovieChoice = {setCurrentMovieACB}/>
         <MovieCarousel movies={upcomMovies} responsiveConfig={responsiveCards} 
-        title={"Upcoming"}/>
+        title={"Upcoming"}
+        onMovieChoice = {setCurrentMovieACB}/>
       </>
     );
 }

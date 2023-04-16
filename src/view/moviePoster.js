@@ -5,7 +5,7 @@ import "../styles/moviePoster.css";
 export default function MoviePoster(props) {
 
   function setCurrentMovieACB(){
-    console.log(props.movie.title);
+    props.onMovieChoice(props.movie);
   }
 
     return (

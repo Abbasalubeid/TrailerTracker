@@ -5,7 +5,7 @@ import "../styles/movieCard.css";
 export default function MovieCard(props) {
 
   function setCurrentMovieACB(){
-    console.log(props.movie.title);
+    props.onMovieChoice(props.movie);
   }
 
   return (
