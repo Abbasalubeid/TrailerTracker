@@ -41,7 +41,7 @@ export default function HomepagePresenter(props){
     }
 
     function setCurrentMovieACB(movie){
-      props.model.setCurrentMovie(movie);
+      props.setCurrentMovie(movie);
     }
 
     React.useEffect(mountACB, []);
