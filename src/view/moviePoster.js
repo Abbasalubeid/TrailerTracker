@@ -1,6 +1,7 @@
 import React from "react";
 import { IMAGE_URL } from "../model/apiConfig.js";
 import "../styles/moviePoster.css";
+import { NavLink } from "react-router-dom";
 
 export default function MoviePoster(props) {
 
@@ -9,19 +10,24 @@ export default function MoviePoster(props) {
   }
 
     return (
-        <div className="movie-card-carousel movie-poster" onClick={setCurrentMovieACB}>
-            <img
-              className="movie-image-carousel"
-              src={`${IMAGE_URL}${props.movie.backdrop_path}`}
-              alt={props.movie.title}
-            />
-        <div className="poster poster-about">
-        <p>{props.movie.overview}</p>
+      <div
+        className="movie-card-carousel movie-poster"
+        onClick={setCurrentMovieACB}
+      >
+        <NavLink to={`/details/${props.movie.title}`}>
+          <img
+            className="movie-image-carousel"
+            src={`${IMAGE_URL}${props.movie.backdrop_path}`}
+            alt={props.movie.title}
+          />
+          <div className="poster poster-about">
+            <p>{props.movie.overview}</p>
+          </div>
+          <div className="poster poster-info">
+            <h3>{props.movie.title}</h3>
+            <p>{Number(props.movie.release_date.split("-")[0])}</p>
+          </div>
+        </NavLink>
       </div>
-        <div className="poster poster-info">
-        <h3>{props.movie.title}</h3>
-        <p>{Number(props.movie.release_date.split("-")[0])}</p>
-      </div>
-    </div>
-      );
+    );
 }

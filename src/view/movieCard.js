@@ -1,6 +1,8 @@
 import React from "react";
 import { IMAGE_URL } from "../model/apiConfig.js";
 import "../styles/movieCard.css";
+import { NavLink } from "react-router-dom";
+
 
 export default function MovieCard(props) {
 
@@ -12,6 +14,7 @@ export default function MovieCard(props) {
     <div className={props.carousel ? "movie-card-carousel" : ""}>
       {props.movie ? (
         <div className="movie-image-container" onClick={setCurrentMovieACB}>
+        <NavLink to={`/details/${props.movie.title}`}>
             <img
               className={props.carousel ? "movie-image-carousel" : "movie-image"}
               src={`${IMAGE_URL}${props.movie.poster_path}`}
@@ -21,6 +24,7 @@ export default function MovieCard(props) {
               <h3>{props.movie.title}</h3>
               <p>{Number(props.movie.release_date.split("-")[0])}</p>
             </div>
+        </NavLink>
         </div>
       ) : null}
     </div>

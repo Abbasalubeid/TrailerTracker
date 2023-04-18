@@ -11,7 +11,10 @@ function App() {
   const [navVisible, showNavbar] = React.useState(false);
   const [currentMovie, setCurrentMovie] = React.useState({})
 
-
+  function movieHasChangedACB(movie) {
+    console.log(movie);
+    setCurrentMovie(movie)
+  }
 
   return (
     <div>
@@ -20,19 +23,22 @@ function App() {
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path='/home' element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-          <HomepagePresenter>  
+          <HomepagePresenter
+          setCurrentMovie={movieHasChangedACB}>  
           </HomepagePresenter>
         </div>
       } />
       <Route path='/discover' element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-          <DiscoverPresenter>
+          <DiscoverPresenter
+          setCurrentMovie={movieHasChangedACB}>
           </DiscoverPresenter>
         </div>
       } />
-      <Route path={`/details`} element={
+      <Route path={`/details/${currentMovie.title}`} element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-        <MovieDetails>
+        <MovieDetails
+        movie = {currentMovie}>
         </MovieDetails>      
         </div>
       } />
