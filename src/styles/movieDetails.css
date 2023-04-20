@@ -1,0 +1,50 @@
+.movie-details {
+    display: flex;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 800px;
+  }
+  
+  .movie-detail-poster {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    margin-right: 2rem;
+  }
+  
+  .movie-detail-info {
+    flex: 1;
+  }
+  
+  .movie-detail-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .movie-detail-overview {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .movie-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .star-icon {
+    color: gold;
+    margin-right: 0.5rem;
+  }
+  
+  .rating-value {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .release-date {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
