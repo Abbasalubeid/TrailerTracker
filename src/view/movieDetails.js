@@ -1,6 +1,7 @@
 import { IMAGE_URL } from "../model/apiConfig.js";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaPlay } from "react-icons/fa";
 import "../styles/movieDetails.css"
+
 export default function MovieDetails(props){
 
 
@@ -21,7 +22,11 @@ export default function MovieDetails(props){
         <p className="release-date">
           Release Date: {new Date(props.movie.release_date).toLocaleDateString()}
         </p>
+        <button className="trailer-button" >
+          <FaPlay className="play-icon" />
+          Trailer
+        </button>
       </div>
-    </div>
+    </div>    
   );
 } 
