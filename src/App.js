@@ -1,7 +1,7 @@
 import './styles/App.css';
 import HomepagePresenter from './presenter/homepagePresenter';
 import DiscoverPresenter from './presenter/discoverPresenter';
-import MovieDetails from './view/movieDetails';
+import DetailsPresenter from './presenter/detailsPresenter';
 import { Routes, Route,Navigate } from "react-router-dom";
 import React from 'react';
 import Sidebar from './view/sidebar';
@@ -12,7 +12,6 @@ function App() {
   const [currentMovie, setCurrentMovie] = React.useState({})
 
   function movieHasChangedACB(movie) {
-    console.log(movie);
     setCurrentMovie(movie)
   }
 
@@ -37,9 +36,9 @@ function App() {
       } />
       <Route path={`/details/${currentMovie.title}`} element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-        <MovieDetails
+        <DetailsPresenter
         movie = {currentMovie}>
-        </MovieDetails>      
+        </DetailsPresenter>      
         </div>
       } />
     </Routes>
