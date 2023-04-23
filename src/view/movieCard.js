@@ -14,7 +14,7 @@ export default function MovieCard(props) {
     <div className={props.carousel ? "movie-card-carousel" : ""}>
       {props.movie ? (
         <div className="movie-image-container" onClick={setCurrentMovieACB}>
-        <NavLink to={`/details/${props.movie.title}`}>
+        <NavLink to={`/details/${props.movie.id}`}>
             <img
               className={props.carousel ? "movie-image-carousel" : "movie-image"}
               src={`${IMAGE_URL}${props.movie.poster_path}`}
