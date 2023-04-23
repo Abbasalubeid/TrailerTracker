@@ -1,17 +1,20 @@
-import "../styles/movieDetails.css"
-import YouTube from 'react-youtube';
+import "../styles/movieDetails.css";
+import YouTube from "react-youtube";
+
+export default function TrailerCard(props) {
 
 
-export default function TrailerCard(props){
+  function handleVideoErrorACB() {
+    props.onVideoError();
+  }
 
-    console.log(props.trailer);
-
-    return(
-        <div className='trailer-vid'>
-            <YouTube 
-                videoId={props.trailer?.key}
-            />
+  return (
+    <div className="trailer-card">
+      {!props.videoError && (
+        <div className="trailer-vid">
+          <YouTube videoId={props.trailer?.key} onError={handleVideoErrorACB} />
         </div>
-    );
-
+      )}
+    </div>
+  );
 }

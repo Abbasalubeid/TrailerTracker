@@ -5,6 +5,7 @@ import {getVideo} from "../model/fetchSource.js"
 
 export default function DetailsPresenter(props){
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
+    const [videoError, setVideoError] = React.useState(false);
 
     function mountACB(){
       getVideo(props.movie.id).then((movie) => {
@@ -25,8 +26,14 @@ export default function DetailsPresenter(props){
       }
     
       return sortedTrailers.map(trailer => (
-        <TrailerCard key={trailer.id} trailer={trailer} />
+        <TrailerCard key={trailer.id} trailer={trailer}
+        videoError = {videoError}
+        onVideoError = {errorOccuredACB} />
       ));
+    }
+
+    function errorOccuredACB(){
+      setVideoError(true)
     }
         
     React.useEffect(mountACB, []);
