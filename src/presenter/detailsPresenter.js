@@ -13,14 +13,17 @@ export default function DetailsPresenter(props){
     }
   
     function renderTrailers() {
-      const sortedTrailers = currentMovieTrailers.sort((a, b) => (
+      const officialTrailers = currentMovieTrailers.filter(trailer => (
         // Using the official property of each trailer is not always consistent
-        a.name.includes("Official Trailer") ? -1 :
-        b.name.includes("Official Trailer") ? 1 :
-        0
+        trailer.name.toLowerCase().includes("official trailer") ||
+        trailer.name.toLowerCase().includes("original trailer")
       ));
+      let sortedTrailers = officialTrailers.slice(0, 2);
 
-      console.log(sortedTrailers );
+      if (sortedTrailers.length === 0) {
+        sortedTrailers = currentMovieTrailers.slice(0, 2);
+      }
+    
       return sortedTrailers.map(trailer => (
         <TrailerCard key={trailer.id} trailer={trailer} />
       ));
