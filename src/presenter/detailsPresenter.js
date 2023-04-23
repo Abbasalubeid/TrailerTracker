@@ -1,15 +1,21 @@
 import React from 'react';
+import { useParams } from "react-router-dom";
 import MovieDetails from '../view/movieDetails.js';
 import TrailerCard from '../view/trailerCard.js';
-import {getVideo} from "../model/fetchSource.js"
+import {getVideo, getMovieDetails} from "../model/fetchSource.js"
 
-export default function DetailsPresenter(props){
+export default function DetailsPresenter(){
+    const { id } = useParams();
+    const [currentMovie, setCurrentMovie] = React.useState({});
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
     const [failedTrailers, setFailedTrailers] = React.useState([]);
   
-    function mountACB(){
-      getVideo(props.movie.id).then((movie) => {
-        setCurrentMovieTrailers(movie);
+    function mountACB() {
+      getMovieDetails(id).then((movie) => {
+        setCurrentMovie(movie);
+        getVideo(movie.id).then((trailers) => {
+          setCurrentMovieTrailers(trailers);
+        });
       });
     }
   
@@ -44,7 +50,7 @@ export default function DetailsPresenter(props){
 
     return (
       <>
-        <MovieDetails movie={props.movie} />
+        <MovieDetails movie={currentMovie} />
         {currentMovieTrailers && renderTrailers()}
       </>
     );

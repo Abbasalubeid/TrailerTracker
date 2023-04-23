@@ -14,7 +14,7 @@ export default function MoviePoster(props) {
         className="movie-card-carousel movie-poster"
         onClick={setCurrentMovieACB}
       >
-        <NavLink to={`/details/${props.movie.title}`}>
+        <NavLink to={`/details/${props.movie.id}`}>
           <img
             className="movie-image-carousel"
             src={`${IMAGE_URL}${props.movie.backdrop_path}`}

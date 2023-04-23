@@ -34,11 +34,9 @@ function App() {
           </DiscoverPresenter>
         </div>
       } />
-      <Route path={`/details/${currentMovie.title}`} element={
+      <Route path="/details/:id" element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
-        <DetailsPresenter
-        movie = {currentMovie}>
-        </DetailsPresenter>      
+        <DetailsPresenter/>      
         </div>
       } />
     </Routes>
