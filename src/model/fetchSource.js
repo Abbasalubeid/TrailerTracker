@@ -12,6 +12,10 @@ function transformACB(object) {
     return object.results;
 }
 
+function transfromDetailsACB(object) {
+    return object;
+}
+
 function topRatedMovies(){
     return fetch(BASE_URL + "movie/top_rated?api_key=" + API_KEY).then(treatHTTPResponseACB).then(transformACB);
 }
@@ -32,4 +36,8 @@ function getVideo(id){
     return fetch(BASE_URL + `movie/${id}/videos?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transformACB);
 }
 
-export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo}
+function getMovieDetails(id) {
+    return fetch(BASE_URL + `movie/${id}?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transfromDetailsACB);
+  }
+
+export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo, getMovieDetails}
