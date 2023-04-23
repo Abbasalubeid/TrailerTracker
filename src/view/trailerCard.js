@@ -3,18 +3,15 @@ import YouTube from "react-youtube";
 
 export default function TrailerCard(props) {
 
-
   function handleVideoErrorACB() {
-    props.onVideoError();
+    props.onVideoError(props.trailer.id);
   }
 
   return (
     <div className="trailer-card">
-      {!props.videoError && (
-        <div className="trailer-vid">
-          <YouTube videoId={props.trailer?.key} onError={handleVideoErrorACB} />
-        </div>
-      )}
+      <div className="trailer-vid">
+        <YouTube videoId={props.trailer?.key} onError={handleVideoErrorACB} />
+      </div>
     </div>
   );
 }
