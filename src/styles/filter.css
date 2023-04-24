@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 
-.filter-container button:active {
+.filter-container button.active {
     background: white;
     color: #1e1e1e;
 }
