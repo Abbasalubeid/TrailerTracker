@@ -7,31 +7,36 @@ import Filter from "../view/filter.js";
 
 export default function DiscoverPresenter(props){
     const [movies, setMovies] = React.useState([]);
+    const [filtered, setFiltered] = React.useState([]);
     const [activeGenre, setActiveGenre] = React.useState(0);
 
     function mountACB(){
       discoverMovies().then((movies) => {
           setMovies(movies);
+          setFiltered(movies);
       });
   }
   
-  console.log(activeGenre);
     function setCurrentMovieACB(movie){
         props.setCurrentMovie(movie);
       }
 
+    function renderFilteredMoviesACB(){
+      const filteredMovies = movies.filter((movie) => movie.genre_ids.includes(activeGenre));
+      setFiltered(filteredMovies)
+    }
+
     React.useEffect(mountACB, []);
+    React.useEffect(renderFilteredMoviesACB, [activeGenre]);
 
     return (
         <>
           <SearchView />
           <Filter 
-          allMovies={movies}
-          activeGenre={activeGenre}
           setActiveGenre={setActiveGenre}/>
           <div className="movie-card">
-            {movies &&
-              movies.map((movie) => (
+            {filtered &&
+              filtered.map((movie) => (
                 <MovieCard
                   key={movie.id}
                   movie={movie}
