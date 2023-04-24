@@ -33,13 +33,13 @@ export default function DiscoverPresenter(props){
         props.setCurrentMovie(movie);
       }
 
-    function renderFilteredMoviesACB(){
+    function updateFilteredMoviesACB(){
       const filteredMovies = movies.filter((movie) => movie.genre_ids.includes(activeGenre));
       setFiltered(filteredMovies)
     }
 
     React.useEffect(mountACB, []);
-    React.useEffect(renderFilteredMoviesACB, [activeGenre]);
+    React.useEffect(updateFilteredMoviesACB, [activeGenre]);
 
     return (
         <>
@@ -53,7 +53,6 @@ export default function DiscoverPresenter(props){
           <AnimatePresence>
             {filtered &&
               filtered.map((movie) => (
-               
                 <MovieCard
                   key={movie.id}
                   movie={movie}
