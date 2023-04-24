@@ -10,6 +10,17 @@ export default function DiscoverPresenter(props){
     const [filtered, setFiltered] = React.useState([]);
     const [activeGenre, setActiveGenre] = React.useState(0);
 
+    const genres = [
+      { id: 28, name: "Action" },
+      { id: 878, name: "Science fiction" },
+      { id: 12, name: "Adventure" },
+      { id: 14, name: "Fantasy" },
+      { id: 10752, name: "War" },
+      { id: 16, name: "Animation" },
+      { id: 18, name: "Drama" },
+      { id: 27, name: "Horror" },
+  ];
+
     function mountACB(){
       discoverMovies().then((movies) => {
           setMovies(movies);
@@ -33,7 +44,9 @@ export default function DiscoverPresenter(props){
         <>
           <SearchView />
           <Filter 
-          setActiveGenre={setActiveGenre}/>
+          setActiveGenre={setActiveGenre}
+          activeGenre={activeGenre}
+          genres={genres}/>
           <div className="movie-card">
             {filtered &&
               filtered.map((movie) => (
