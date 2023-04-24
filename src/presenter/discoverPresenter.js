@@ -12,6 +12,7 @@ export default function DiscoverPresenter(props){
     const [activeGenre, setActiveGenre] = React.useState(0);
 
     const genres = [
+      { id: 0, name: "All" },
       { id: 28, name: "Action" },
       { id: 878, name: "Science fiction" },
       { id: 12, name: "Adventure" },
@@ -34,6 +35,10 @@ export default function DiscoverPresenter(props){
       }
 
     function updateFilteredMoviesACB(){
+      if (activeGenre === 0){
+        setFiltered(movies)
+        return;
+      }
       const filteredMovies = movies.filter((movie) => movie.genre_ids.includes(activeGenre));
       setFiltered(filteredMovies)
     }
