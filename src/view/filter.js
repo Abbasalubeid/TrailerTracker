@@ -4,8 +4,8 @@ import "../styles/filter.css"
 export default function Filter(props) {
 
     function genreChangedACB(event){
-        props.setActiveGenre(event.target.value)
-    }
+        props.setActiveGenre(parseInt(event.target.value))
+    }    
 
     return (
         <div className="filter-container">
