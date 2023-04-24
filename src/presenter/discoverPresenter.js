@@ -1,4 +1,5 @@
 import React from "react";
+import {motion, AnimatePresence} from "framer-motion"
 import {discoverMovies} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
 import SearchView from "../view/searchView.js"
@@ -47,16 +48,20 @@ export default function DiscoverPresenter(props){
           setActiveGenre={setActiveGenre}
           activeGenre={activeGenre}
           genres={genres}/>
-          <div className="movie-card">
+          <motion.div layout={true}
+          className="movie-card">
+          <AnimatePresence>
             {filtered &&
               filtered.map((movie) => (
+               
                 <MovieCard
                   key={movie.id}
                   movie={movie}
                   onMovieChoice={setCurrentMovieACB}
                 />
               ))}
-          </div>
+            </AnimatePresence>
+          </motion.div>
         </>
       );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { IMAGE_URL } from "../model/apiConfig.js";
 import "../styles/movieCard.css";
 import { NavLink } from "react-router-dom";
@@ -11,7 +12,12 @@ export default function MovieCard(props) {
   }
 
   return (
-    <div className={props.carousel ? "movie-card-carousel" : ""}>
+    <motion.div 
+    layout={true}
+    animate={{ opacity: 1}}
+    initial={{ opacity: 0}} 
+    exit={{ opacity: 0}}  
+    className={props.carousel ? "movie-card-carousel" : ""}>
       {props.movie ? (
         <div className="movie-image-container" onClick={setCurrentMovieACB}>
         <NavLink to={`/details/${props.movie.id}`}>
@@ -27,6 +33,6 @@ export default function MovieCard(props) {
         </NavLink>
         </div>
       ) : null}
-    </div>
+    </motion.div>
   );
 }
