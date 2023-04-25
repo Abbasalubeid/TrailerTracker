@@ -1,10 +1,11 @@
 import { FaSearch } from "react-icons/fa";
-import "../styles/searchView.css";
+import "../styles/searchBar.css";
 
-export default function SearchView(props) {
+export default function SearchBar(props) {
     
   function onFormSubmit(event) {
     event.preventDefault();
+    console.log(event.target.elements.searchInput.value);
   }
 
   return (
