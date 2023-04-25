@@ -5,11 +5,11 @@ export default function SearchBar(props) {
     
   function onFormSubmit(event) {
     event.preventDefault();
-    props.userSearched(event.target.elements.searchInput.value);
+    props.userSearched(event.target.value);
   }
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form onChange={onFormSubmit}>
       <div className="search-bar">
         <div className="search-icon">
           <FaSearch />
