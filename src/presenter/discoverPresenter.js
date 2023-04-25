@@ -44,6 +44,10 @@ export default function DiscoverPresenter(props){
     }
 
     function handleSearchACB(input){
+      if (!input.trim()) {
+        mountACB();
+        return;
+      }
       getMovieByName(input).then((movies) => {
         setMovies(movies);
         setFiltered(movies);
