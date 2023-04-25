@@ -5,7 +5,7 @@ export default function SearchBar(props) {
     
   function onFormSubmit(event) {
     event.preventDefault();
-    console.log(event.target.elements.searchInput.value);
+    props.userSearched(event.target.elements.searchInput.value);
   }
 
   return (

@@ -1,8 +1,8 @@
 import React from "react";
 import {motion, AnimatePresence} from "framer-motion"
-import {discoverMovies} from "../model/fetchSource.js"
+import {discoverMovies, getMovieByName} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
-import SearchView from "../view/searchView.js"
+import SearchBar from "../view/searchBar.js"
 import "../styles/movieCard.css"
 import Filter from "../view/filter.js";
 
@@ -17,10 +17,10 @@ export default function DiscoverPresenter(props){
       { id: 878, name: "Science fiction" },
       { id: 12, name: "Adventure" },
       { id: 14, name: "Fantasy" },
-      { id: 10752, name: "War" },
       { id: 16, name: "Animation" },
       { id: 18, name: "Drama" },
       { id: 27, name: "Horror" },
+      { id: 10752, name: "War" }
   ];
 
     function mountACB(){
@@ -43,12 +43,20 @@ export default function DiscoverPresenter(props){
       setFiltered(filteredMovies)
     }
 
+    function handleSearchACB(input){
+      getMovieByName(input).then((movies) => {
+        setMovies(movies);
+        setFiltered(movies);
+    });
+    }
+
     React.useEffect(mountACB, []);
     React.useEffect(updateFilteredMoviesACB, [activeGenre]);
 
     return (
         <>
-          <SearchView />
+          <SearchBar
+          userSearched={handleSearchACB} />
           <Filter 
           setActiveGenre={setActiveGenre}
           activeGenre={activeGenre}
