@@ -49,10 +49,6 @@
   display: none;
 }
 
-.hide {
-  display: none;
-}
-
 .movie-poster:hover .poster-about {
   opacity: 1;
 }
