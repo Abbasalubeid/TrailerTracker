@@ -48,4 +48,8 @@ function getRecommendations(id) {
     return fetch(`${BASE_URL}movie/${id}/recommendations?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transformACB);
   }
 
-export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo, getMovieDetails, getMovieByName, getRecommendations}
+function getCredits(id) {
+    return fetch(`${BASE_URL}movie/${id}/credits?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transfromDetailsACB);
+  }
+
+export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo, getMovieDetails, getMovieByName, getRecommendations, getCredits}
