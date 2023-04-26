@@ -23,10 +23,15 @@ export default function DiscoverPresenter(props){
       { id: 10752, name: "War" }
   ];
 
+  function betterRankCB(movie1, movie2){
+    return movie2.vote_average - movie1.vote_average
+  }
+
     function mountACB(){
       discoverMovies().then((movies) => {
-          setMovies(movies);
-          setFiltered(movies);
+        const sortedMovies = movies.sort(betterRankCB);
+        setMovies(sortedMovies);
+        setFiltered(sortedMovies);
       });
     }
   
@@ -49,8 +54,9 @@ export default function DiscoverPresenter(props){
         return;
       }
       getMovieByName(input).then((movies) => {
-        setMovies(movies);
-        setFiltered(movies);
+        const sortedMovies = movies.sort(betterRankCB);
+        setMovies(sortedMovies);
+        setFiltered(sortedMovies);
     });
     }
 
