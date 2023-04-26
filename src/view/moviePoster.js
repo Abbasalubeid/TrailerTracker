@@ -17,13 +17,12 @@ export default function MoviePoster(props) {
         <NavLink to={`/details/${props.movie.id}`}>
           <img
             className="movie-image-carousel"
-            src={`${IMAGE_URL}${props.movie.backdrop_path}`}
-            alt={props.movie.title}
+            src={props.movie.backdrop_path ? `${IMAGE_URL}${props.movie.backdrop_path}` : " "}
           />
-          <div className="poster poster-about">
+          <div className={props.movie.backdrop_path ? "poster poster-about" : "hide"}>
             <p>{props.movie.overview}</p>
           </div>
-          <div className="poster poster-info">
+          <div className={props.movie.backdrop_path ? "poster poster-info" : "no-pic"}>
             <h3>{props.movie.title}</h3>
             <p>{Number(props.movie.release_date.split("-")[0])}</p>
           </div>
