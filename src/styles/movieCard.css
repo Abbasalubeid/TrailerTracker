@@ -52,7 +52,8 @@
   align-items: center;
 }
 
-.movie-image-container:hover .movie-info, .no-pic{
+.movie-image-container:hover .movie-info, 
+.movie-card-carousel:hover .movie-info, .no-pic {
   opacity: 1;
 }
 
