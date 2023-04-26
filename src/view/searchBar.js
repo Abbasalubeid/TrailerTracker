@@ -8,8 +8,14 @@ export default function SearchBar(props) {
     props.userSearched(event.target.value);
   }
 
+  function dontSubmitACB(event){
+    event.preventDefault();
+  }
+
   return (
-    <form onChange={onFormSubmit}>
+    <form 
+    onChange={onFormSubmit}
+    onSubmit={dontSubmitACB}>
       <div className="search-bar">
         <div className="search-icon">
           <FaSearch />
