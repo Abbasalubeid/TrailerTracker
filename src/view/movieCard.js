@@ -5,6 +5,7 @@ import "../styles/movieCard.css";
 import { NavLink } from "react-router-dom";
 
 
+
 export default function MovieCard(props) {
 
   function setCurrentMovieACB(){
@@ -17,21 +18,19 @@ export default function MovieCard(props) {
     animate={{ opacity: 1}}
     initial={{ opacity: 0}} 
     exit={{ opacity: 0}}  
-    className={props.carousel ? "movie-card-carousel" : ""}>
+    className={props.carousel ? "movie-card-carousel" : "movie-image-container"}
+    onClick={setCurrentMovieACB}>
       {props.movie ? (
-        <div className="movie-image-container" onClick={setCurrentMovieACB}>
         <NavLink to={`/details/${props.movie.id}`}>
             <img
               className={props.carousel ? "movie-image-carousel" : "movie-image"}
-              src={`${IMAGE_URL}${props.movie.poster_path}`}
-              alt={props.title}
+              src={props.movie.poster_path ? `${IMAGE_URL}${props.movie.poster_path}` : ""}
             />
-            <div className="movie-info">
+            <div className={props.movie.poster_path ? "movie-info " : "no-pic"}>
               <h3>{props.movie.title}</h3>
               <p>{Number(props.movie.release_date.split("-")[0])}</p>
             </div>
         </NavLink>
-        </div>
       ) : null}
     </motion.div>
   );

@@ -8,7 +8,7 @@ export default function MovieDetails(props){
   return (
     <div className="movie-details">
       <img
-        className="movie-detail-poster"
+        className={props.movie.poster_path ? "movie-detail-poster" : "hide"}
         src={`${IMAGE_URL}${props.movie.poster_path}`}
         alt={props.movie.title}
       />
