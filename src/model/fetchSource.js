@@ -41,7 +41,11 @@ function getMovieDetails(id) {
   }
 
 function getMovieByName(name) {
-    return fetch(BASE_URL + `search/movie?api_key=${API_KEY}&query=${name}`).then(treatHTTPResponseACB).then(transformACB);
+    return fetch(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${name}`).then(treatHTTPResponseACB).then(transformACB);
   }
 
-export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo, getMovieDetails, getMovieByName}
+function getRecommendations(id) {
+    return fetch(`${BASE_URL}movie/${id}/recommendations?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transformACB);
+  }
+
+export{topRatedMovies, trendingMovies, upcomingMovies, discoverMovies, getVideo, getMovieDetails, getMovieByName, getRecommendations}
