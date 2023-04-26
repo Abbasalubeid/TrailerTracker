@@ -2,19 +2,35 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import MovieDetails from '../view/movieDetails.js';
 import TrailerCard from '../view/trailerCard.js';
-import {getVideo, getMovieDetails} from "../model/fetchSource.js"
+import {getVideo, getMovieDetails, getRecommendations} from "../model/fetchSource.js"
+import MovieCarousel from '../view/movieCarousel.js';
 
-export default function DetailsPresenter(){
+export default function DetailsPresenter(props){
     const { id } = useParams();
     const [currentMovie, setCurrentMovie] = React.useState({});
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
     const [failedTrailers, setFailedTrailers] = React.useState([]);
+    const [recommendations, setRecommendations] = React.useState([]);
+
+    const responsiveCards = {
+      desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
+      desktop2: { breakpoint: { max: 1700, min: 1300 }, items: 7 },
+      desktop3: { breakpoint: { max: 1300, min: 1080 }, items: 6 },
+      tablet1: { breakpoint: { max: 1080, min: 805 }, items: 5 },
+      tablet2: { breakpoint: { max: 805, min: 660 }, items: 4 },
+      tablet3: { breakpoint: { max: 660, min: 510 }, items: 3 },
+      mobile1: { breakpoint: { max: 380, min: 0 }, items: 2 },
+      mobile2: { breakpoint: { max: 310, min: 0 }, items: 1 }
+    };
   
     function mountACB() {
       getMovieDetails(id).then((movie) => {
         setCurrentMovie(movie);
         getVideo(movie.id).then((trailers) => {
           setCurrentMovieTrailers(trailers);
+        });
+        getRecommendations(id).then((rec) => {
+          setRecommendations(rec);
         });
       });
     }
@@ -45,6 +61,10 @@ export default function DetailsPresenter(){
     function handleVideoErrorACB(trailerId) {
       setFailedTrailers([...failedTrailers, trailerId]);
     }
+
+    function setCurrentMovieACB(movie){
+      props.setCurrentMovie(movie);
+    }
         
     React.useEffect(mountACB, []);
 
@@ -52,6 +72,16 @@ export default function DetailsPresenter(){
       <>
         <MovieDetails movie={currentMovie} />
         {currentMovieTrailers && renderTrailers()}
+        {recommendations.length > 0 && (
+          <MovieCarousel
+          title={"Recommendations"}
+          responsiveConfig={responsiveCards}
+          movies={recommendations}
+          onMovieChoice = {setCurrentMovieACB}
+          />
+
+        
+        )}
       </>
     );
 }
