@@ -1,15 +1,16 @@
 
 nav{
-	position:absolute;
+	position:fixed;
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
 	background-color: #2a2828;
 	padding:2rem 1rem 1rem 1rem;
-	transition: transform 1s;
+	transition: transform 0.5s;
     z-index: 10000;
 	border-right: 0.5px solid white;
-	height: 150vh;
+	height: 100vh;
+	overflow-y: auto;
 }
 
 .sidebar{
@@ -28,7 +29,7 @@ nav{
 }
 
 .nav-link:hover, .nav-btn:hover, .nav-btn:hover{
-	color: #008000;
+	color: black
 }
 
 .nav-link span{
