@@ -3,20 +3,20 @@ import "../styles/filter.css"
 
 export default function Filter(props) {
 
-    function genreChangedACB(event){
-        props.setActiveGenre(parseInt(event.target.value))
+    function filterChangedACB(event){
+        props.setActiveFilter(parseInt(event.target.value))
     }    
 
     return (
         <div className="filter-container">
-            {props.genres.map(genre => (
+            {props.filters.map(filter => (
                 <button
-                    key={genre.id}
-                    className={props.activeGenre === genre.id ? "active" : ""}
-                    value={genre.id}
-                    onClick={genreChangedACB}
+                    key={filter.id}
+                    className={props.activeFilter === filter.id ? "active" : ""}
+                    value={filter.id}
+                    onClick={filterChangedACB}
                 >
-                    {genre.name}
+                    {filter.name}
                 </button>
             ))}
         </div>

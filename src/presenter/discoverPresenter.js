@@ -80,9 +80,9 @@ export default function DiscoverPresenter(props){
           <SearchBar
           userSearched={handleSearchACB} />
           <Filter 
-          setActiveGenre={setActiveGenre}
-          activeGenre={activeGenre}
-          genres={genres}/>
+          setActiveFilter={setActiveGenre}
+          activeFilter={activeGenre}
+          filters={genres}/>
           <motion.div layout={true}
           className="movie-card">
           <AnimatePresence>
