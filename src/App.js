@@ -37,6 +37,7 @@ function App() {
       <Route path="/details/:id" element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
         <DetailsPresenter
+        movie={currentMovie}
         setCurrentMovie={movieHasChangedACB}/>      
         </div>
       } />

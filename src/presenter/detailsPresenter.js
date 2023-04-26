@@ -24,6 +24,20 @@ export default function DetailsPresenter(props){
     };
   
     function mountACB() {
+      if (!props.movie.id && props.movie.id !== id){
+        fetchAll(id)
+      }
+      else {
+        getVideo(props.movie.id).then((trailers) => {
+          setCurrentMovieTrailers(trailers);
+        });
+        getRecommendations(props.movie.id).then((rec) => {
+          setRecommendations(rec);
+        });
+      }
+    }
+
+    function fetchAll(id){
       getMovieDetails(id).then((movie) => {
         setCurrentMovie(movie);
         getVideo(movie.id).then((trailers) => {
@@ -64,9 +78,11 @@ export default function DetailsPresenter(props){
 
     function setCurrentMovieACB(movie){
       props.setCurrentMovie(movie);
+      setCurrentMovie(movie);
+      document.documentElement.scrollTop = 0;
     }
-        
-    React.useEffect(mountACB, []);
+
+    React.useEffect(mountACB, [currentMovie]);
 
     return (
       <>
@@ -79,8 +95,6 @@ export default function DetailsPresenter(props){
           movies={recommendations}
           onMovieChoice = {setCurrentMovieACB}
           />
-
-        
         )}
       </>
     );
