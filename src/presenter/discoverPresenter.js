@@ -3,8 +3,8 @@ import {motion, AnimatePresence} from "framer-motion"
 import {discoverMovies, getMovieByName} from "../model/fetchSource.js"
 import MovieCard from "../view/movieCard.js";
 import SearchBar from "../view/searchBar.js"
-import "../styles/movieCard.css"
 import Filter from "../view/filter.js";
+import "../styles/movieCard.css"
 
 export default function DiscoverPresenter(props){
     const [movies, setMovies] = React.useState([]);
@@ -28,7 +28,7 @@ export default function DiscoverPresenter(props){
           setMovies(movies);
           setFiltered(movies);
       });
-  }
+    }
   
     function setCurrentMovieACB(movie){
         props.setCurrentMovie(movie);
@@ -54,6 +54,18 @@ export default function DiscoverPresenter(props){
     });
     }
 
+    function renderMoviesCB(movie){
+      return (
+          movie ? 
+          <MovieCard
+              key={movie.id}
+              movie={movie}
+              onMovieChoice={setCurrentMovieACB}
+          />
+          : null
+      );
+  }
+    
     React.useEffect(mountACB, []);
     React.useEffect(updateFilteredMoviesACB, [activeGenre]);
 
@@ -69,13 +81,7 @@ export default function DiscoverPresenter(props){
           className="movie-card">
           <AnimatePresence>
             {filtered &&
-              filtered.map((movie) => (
-                <MovieCard
-                  key={movie.id}
-                  movie={movie}
-                  onMovieChoice={setCurrentMovieACB}
-                />
-              ))}
+              filtered.map(renderMoviesCB)}
             </AnimatePresence>
           </motion.div>
         </>
