@@ -28,6 +28,7 @@ export default function DetailsPresenter(props){
         fetchAll(id)
       }
       else {
+        setCurrentMovie(props.movie)
         getVideo(props.movie.id).then((trailers) => {
           setCurrentMovieTrailers(trailers);
         });
