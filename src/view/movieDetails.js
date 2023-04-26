@@ -4,7 +4,17 @@ import "../styles/movieDetails.css"
 
 export default function MovieDetails(props){
 
-
+  function renderCastNames() {
+    if (props.cast) {
+      return props.cast.slice(0, 4).map((cast) => {
+        return <p key={cast.id}>{cast.name}</p>;
+      });
+    } else {
+      return null;
+    }
+  }
+  
+  
   return (
     <div className="movie-details">
       <img
@@ -19,9 +29,12 @@ export default function MovieDetails(props){
           <FaStar className="star-icon" />
           <p className="rating-value">{props.movie.vote_average?.toFixed(1)}</p>
         </div>
-        <p className="release-date">
+        <p className="header">
           Release Date: {new Date(props.movie.release_date).toLocaleDateString()}
         </p>
+        <div className="cast-names">
+          {renderCastNames()}
+        </div>
       </div>
     </div>    
   );

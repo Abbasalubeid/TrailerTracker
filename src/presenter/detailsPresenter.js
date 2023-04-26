@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import MovieDetails from '../view/movieDetails.js';
 import TrailerCard from '../view/trailerCard.js';
-import {getVideo, getMovieDetails, getRecommendations} from "../model/fetchSource.js"
+import {getVideo, getMovieDetails, getRecommendations, getCredits} from "../model/fetchSource.js"
 import MovieCarousel from '../view/movieCarousel.js';
 
 export default function DetailsPresenter(props){
@@ -11,6 +11,7 @@ export default function DetailsPresenter(props){
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
     const [failedTrailers, setFailedTrailers] = React.useState([]);
     const [recommendations, setRecommendations] = React.useState([]);
+    const [castMembers, setCastMembers] = React.useState([]);
 
     const responsiveCards = {
       desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -35,17 +36,23 @@ export default function DetailsPresenter(props){
         getRecommendations(props.movie.id).then((rec) => {
           setRecommendations(rec);
         });
+        getCredits(props.movie.id).then((credits) => {
+          setCastMembers(credits.cast);
+        });
       }
     }
 
     function fetchAll(id){
       getMovieDetails(id).then((movie) => {
         setCurrentMovie(movie);
-        getVideo(movie.id).then((trailers) => {
+        getVideo(id).then((trailers) => {
           setCurrentMovieTrailers(trailers);
         });
         getRecommendations(id).then((rec) => {
           setRecommendations(rec);
+        });
+        getCredits(id).then((credits) => {
+          setCastMembers(credits.cast);
         });
       });
     }
@@ -87,14 +94,16 @@ export default function DetailsPresenter(props){
 
     return (
       <>
-        <MovieDetails movie={currentMovie} />
+        <MovieDetails 
+        movie={currentMovie}
+        cast={castMembers} />
         {currentMovieTrailers && renderTrailers()}
         {recommendations.length > 0 && (
           <MovieCarousel
-          title={"Recommendations"}
-          responsiveConfig={responsiveCards}
-          movies={recommendations}
-          onMovieChoice = {setCurrentMovieACB}
+            title={"Recommendations"}
+            responsiveConfig={responsiveCards}
+            movies={recommendations}
+            onMovieChoice = {setCurrentMovieACB}
           />
         )}
       </>

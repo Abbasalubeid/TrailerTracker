@@ -45,7 +45,7 @@
     font-size: 1.2rem;
   }
   
-  .release-date {
+  .header {
     margin: 0;
     font-size: 1.2rem;
   }
@@ -71,6 +71,25 @@
     margin-bottom: 20px;
     padding: 10px;
   }
+
+  .cast-names {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .cast-names p {
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border: 1px solid white;
+    padding: 1rem;
+    border-radius: 20px;
+    text-align: center;
+  }
+  
   
   @media (max-width: 600px) {
     .movie-details {
@@ -97,7 +116,7 @@
     }
   
     .rating-value,
-    .release-date {
+    .header {
       font-size: 1rem;
     }
 
@@ -136,7 +155,7 @@
     }
   
     .rating-value,
-    .release-date {
+    .header {
       font-size: 1.5rem;
     }
 
