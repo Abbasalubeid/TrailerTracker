@@ -18,4 +18,8 @@ footer {
 	padding: 10px;
 	color: rgba(131, 131, 131, 0.5);
   }
-  
+
+html {
+background-color: rgba(23, 23, 23, 1);
+color: white;
+}
