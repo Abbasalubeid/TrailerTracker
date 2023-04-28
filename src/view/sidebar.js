@@ -4,7 +4,8 @@ import "../styles/sidebar.css";
 import {
     FaHome,
     FaCompass,
-    FaBars 
+    FaBars,
+    FaTimes
 } from 'react-icons/fa';
 
 export default function Sidebar(props) {
@@ -17,7 +18,7 @@ export default function Sidebar(props) {
           className="nav-btn"
           onClick={() => props.show(!props.visible)}
         >
-          <FaBars size={24} />
+          {props.visible ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
       
