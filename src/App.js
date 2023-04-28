@@ -35,6 +35,7 @@ function App(props) {
         model = {props.model}/>      
         </div>
       } />
+      <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   </div>
   );
