@@ -3,19 +3,20 @@ import "../styles/searchBar.css";
 
 export default function SearchBar(props) {
     
-  function onFormSubmit(event) {
+  function onFormChange(event) {
     event.preventDefault();
     props.userSearched(event.target.value);
   }
 
-  function dontSubmitACB(event){
+  function onFormSubmit(event){
     event.preventDefault();
+    props.userSearched(event.target.searchInput.value);
   }
 
   return (
     <form 
-    onChange={onFormSubmit}
-    onSubmit={dontSubmitACB}>
+    onChange={onFormChange}
+    onSubmit={onFormSubmit}>
       <div className="search-bar">
         <div className="search-icon">
           <FaSearch />
