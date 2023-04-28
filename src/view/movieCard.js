@@ -22,11 +22,11 @@ export default function MovieCard(props) {
     onClick={setCurrentMovieACB}>
       {props.movie ? (
         <NavLink to={`/details/${props.movie.id}`}>
-            <img
+         <img
               className={props.carousel ? "movie-image-carousel" : "movie-image"}
-              src={props.movie.poster_path ? `${IMAGE_URL}${props.movie.poster_path}` : ""}
+              src={`${IMAGE_URL}${props.movie.poster_path}`}
             />
-            <div className={props.movie.poster_path ? "movie-info " : "no-pic"}>
+            <div className="movie-info">
               <h3>{props.movie.title}</h3>
               <p>{Number(props.movie.release_date.split("-")[0])}</p>
             </div>

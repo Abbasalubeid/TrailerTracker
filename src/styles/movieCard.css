@@ -32,7 +32,7 @@
   border-radius: 15px;
 }
 
-.movie-info, .no-pic{
+.movie-info{
   position: absolute;
   top: 0;
   left: 0;
@@ -53,7 +53,7 @@
 }
 
 .movie-image-container:hover .movie-info, 
-.movie-card-carousel:hover .movie-info, .no-pic {
+.movie-card-carousel:hover .movie-info{
   opacity: 1;
 }
 
