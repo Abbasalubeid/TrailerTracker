@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import '../styles/sidebar.css';
-import { FaHome, FaCompass, FaBars, FaTimes } from 'react-icons/fa';
+import { GoHome } from 'react-icons/go';
+import { AiOutlineCompass } from 'react-icons/ai';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Sidebar(props) {
   const ICON_SIZE = 20;
@@ -21,7 +23,7 @@ export default function Sidebar(props) {
             to="/home"
             className={location.pathname === "/home" ? "nav-link active-nav" : "nav-link"}
           >
-            <FaHome
+            <GoHome
               size={20}
             />
             <span >
@@ -32,7 +34,7 @@ export default function Sidebar(props) {
             to="/discover"
             className={location.pathname === "/discover" ? "nav-link active-nav" : "nav-link"}
           >
-            <FaCompass
+            <AiOutlineCompass
               size={ICON_SIZE}
             />
             <span>
