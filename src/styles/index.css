@@ -10,3 +10,12 @@
 .hide {
 	display: none;
 }
+
+footer {
+	font-size: small;
+	text-align: center;
+	bottom: 0;
+	padding: 10px;
+	color: rgba(131, 131, 131, 0.5);
+  }
+  
