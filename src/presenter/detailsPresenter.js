@@ -7,11 +7,12 @@ import MovieCarousel from '../view/movieCarousel.js';
 
 export default function DetailsPresenter(props){
     const { id } = useParams();
-    const [currentMovie, setCurrentMovie] = React.useState({});
+    const [currentMovie, setCurrentMovie] = React.useState(props.model.currentMovie);
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
     const [failedTrailers, setFailedTrailers] = React.useState([]);
     const [recommendations, setRecommendations] = React.useState([]);
     const [castMembers, setCastMembers] = React.useState([]);
+    
 
     const responsiveCards = {
       desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -23,20 +24,19 @@ export default function DetailsPresenter(props){
       mobile1: { breakpoint: { max: 380, min: 0 }, items: 2 },
       mobile2: { breakpoint: { max: 310, min: 0 }, items: 1 }
     };
-  
+
     function mountACB() {
-      if (!props.movie.id && props.movie.id !== id){
+      if (!currentMovie.id && currentMovie.id !== id){
         fetchAll(id)
       }
       else {
-        setCurrentMovie(props.movie)
-        getVideo(props.movie.id).then((trailers) => {
+        getVideo(currentMovie.id).then((trailers) => {
           setCurrentMovieTrailers(trailers);
         });
-        getRecommendations(props.movie.id).then((rec) => {
+        getRecommendations(currentMovie.id).then((rec) => {
           setRecommendations(rec);
         });
-        getCredits(props.movie.id).then((credits) => {
+        getCredits(currentMovie.id).then((credits) => {
           setCastMembers(credits.cast);
         });
       }
@@ -85,7 +85,7 @@ export default function DetailsPresenter(props){
     }
 
     function setCurrentMovieACB(movie){
-      props.setCurrentMovie(movie);
+      props.model.setCurrentMovie(movie)
       setCurrentMovie(movie);
       document.documentElement.scrollTop = 0;
     }

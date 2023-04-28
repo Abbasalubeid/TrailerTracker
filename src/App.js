@@ -7,13 +7,8 @@ import React from 'react';
 import Sidebar from './view/sidebar';
 
 
-function App() {
+function App(props) {
   const [navVisible, showNavbar] = React.useState(false);
-  const [currentMovie, setCurrentMovie] = React.useState({})
-
-  function movieHasChangedACB(movie) {
-    setCurrentMovie(movie)
-  }
 
   return (
     <div>
@@ -23,22 +18,21 @@ function App() {
       <Route path='/home' element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
           <HomepagePresenter
-          setCurrentMovie={movieHasChangedACB}>  
+          model = {props.model}>  
           </HomepagePresenter>
         </div>
       } />
       <Route path='/discover' element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
           <DiscoverPresenter
-          setCurrentMovie={movieHasChangedACB}>
+          model = {props.model}>
           </DiscoverPresenter>
         </div>
       } />
       <Route path="/details/:id" element={
         <div className={!navVisible ? "page" : "page page-with-navbar"}>
         <DetailsPresenter
-        movie={currentMovie}
-        setCurrentMovie={movieHasChangedACB}/>      
+        model = {props.model}/>      
         </div>
       } />
     </Routes>
