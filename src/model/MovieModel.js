@@ -18,4 +18,25 @@ export default class MovieModel{
     setCurrentMovie(movie) {
         this.currentMovie = movie;
     }
+
+    validMovies(movies){
+        function betterRankCB(movie1, movie2) {
+            return movie2.vote_average - movie1.vote_average
+        }
+        
+        function isValidCB(movie) {
+            return movie.title && movie.poster_path && movie.release_date;
+        }
+
+        const validMovies = movies.filter(isValidCB)
+        return validMovies.sort(betterRankCB);
+    }
+
+    filteredMovies(genre, movies){
+        function isInGenreCB(movie){
+            return movie.genre_ids.includes(genre)
+        }
+
+       return movies.filter(isInGenreCB);
+    }
 }
