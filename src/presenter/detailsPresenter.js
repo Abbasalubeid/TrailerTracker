@@ -34,7 +34,7 @@ export default function DetailsPresenter(props){
           setCurrentMovieTrailers(trailers);
         });
         getRecommendations(currentMovie.id).then((rec) => {
-          setRecommendations(rec);
+          setRecommendations(props.model.validMovies(rec));
         });
         getCredits(currentMovie.id).then((credits) => {
           setCastMembers(credits.cast);
@@ -49,7 +49,7 @@ export default function DetailsPresenter(props){
           setCurrentMovieTrailers(trailers);
         });
         getRecommendations(id).then((rec) => {
-          setRecommendations(rec);
+          setRecommendations(props.model.validMovies(rec));
         });
         getCredits(id).then((credits) => {
           setCastMembers(credits.cast);
@@ -58,16 +58,7 @@ export default function DetailsPresenter(props){
     }
   
     function renderTrailers() {
-      const officialTrailers = currentMovieTrailers.filter(trailer => (
-        // Using the official property of each trailer is not always consistent
-        trailer.name.toLowerCase().includes("official trailer") ||
-        trailer.name.toLowerCase().includes("original trailer")
-      ));
-      let sortedTrailers = officialTrailers.slice(0, 2);
-
-      if (sortedTrailers.length === 0) {
-        sortedTrailers = currentMovieTrailers.slice(0, 2);
-      }
+     const sortedTrailers = props.model.chooseTrailers(currentMovieTrailers)
     
       return sortedTrailers.map(trailer => {
         if (failedTrailers.includes(trailer.id)) {
