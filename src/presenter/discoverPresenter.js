@@ -13,8 +13,9 @@ export default function DiscoverPresenter(props){
 
     function mountACB(){
       discoverMovies().then((movies) => {
-        setMovies(props.model.validMovies(movies))
-        setFiltered(props.model.validMovies(movies))
+        const validMovies = props.model.validMovies(movies)
+        setMovies(validMovies)
+        setFiltered(validMovies)
       });
     }
   
@@ -38,8 +39,9 @@ export default function DiscoverPresenter(props){
         return;
       }
       getMovieByName(input).then((movies) => {
-        setMovies(props.model.validMovies(movies))
-        setFiltered(props.model.validMovies(movies))
+        const validMovies = props.model.validMovies(movies)
+        setMovies(validMovies)
+        setFiltered(validMovies)
     });
     }
 
