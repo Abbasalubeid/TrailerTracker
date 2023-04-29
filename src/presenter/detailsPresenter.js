@@ -4,6 +4,7 @@ import MovieDetails from '../view/movieDetails.js';
 import TrailerCard from '../view/trailerCard.js';
 import {getVideo, getMovieDetails, getRecommendations, getCredits} from "../model/fetchSource.js"
 import MovieCarousel from '../view/movieCarousel.js';
+import Loading from "../view/loading.js";
 
 export default function DetailsPresenter(props){
     const { id } = useParams();
@@ -12,7 +13,9 @@ export default function DetailsPresenter(props){
     const [failedTrailers, setFailedTrailers] = React.useState([]);
     const [recommendations, setRecommendations] = React.useState([]);
     const [castMembers, setCastMembers] = React.useState([]);
-    
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
+    const [key, setKey] = React.useState(id);
 
     const responsiveCards = {
       desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -26,37 +29,36 @@ export default function DetailsPresenter(props){
     };
 
     function mountACB() {
-      if (!currentMovie.id && currentMovie.id !== id){
-        fetchAll(id)
-      }
-      else {
-        getVideo(currentMovie.id).then((trailers) => {
-          setCurrentMovieTrailers(trailers);
-        });
-        getRecommendations(currentMovie.id).then((rec) => {
-          setRecommendations(props.model.validMovies(rec));
-        });
-        getCredits(currentMovie.id).then((credits) => {
-          setCastMembers(credits.cast);
-        });
+      setIsLoading(true);
+      setKey(key + 1);
+      if (!(currentMovie.id == id)) {
+        Promise.all([getMovieDetails(id), getVideo(id), getRecommendations(id), getCredits(id)])
+          .then(([movieDetails, trailers, rec, credits]) => {
+            setCurrentMovie(movieDetails);
+            setCurrentMovieTrailers(trailers);
+            setRecommendations(props.model.validMovies(rec));
+            setCastMembers(credits.cast);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setError(error);
+            setIsLoading(false);
+          });
+      } else {
+        Promise.all([getVideo(currentMovie.id), getRecommendations(currentMovie.id), getCredits(currentMovie.id)])
+          .then(([trailers, rec, credits]) => {
+            setCurrentMovieTrailers(trailers);
+            setRecommendations(props.model.validMovies(rec));
+            setCastMembers(credits.cast);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setError(error);
+            setIsLoading(false);
+          });
       }
     }
-
-    function fetchAll(id){
-      getMovieDetails(id).then((movie) => {
-        setCurrentMovie(movie);
-        getVideo(id).then((trailers) => {
-          setCurrentMovieTrailers(trailers);
-        });
-        getRecommendations(id).then((rec) => {
-          setRecommendations(props.model.validMovies(rec));
-        });
-        getCredits(id).then((credits) => {
-          setCastMembers(credits.cast);
-        });
-      });
-    }
-  
+    
     function renderTrailers() {
      const sortedTrailers = props.model.chooseTrailers(currentMovieTrailers)
     
@@ -75,28 +77,33 @@ export default function DetailsPresenter(props){
       setFailedTrailers([...failedTrailers, trailerId]);
     }
 
-    function setCurrentMovieACB(movie){
-      props.model.setCurrentMovie(movie)
+    function setCurrentMovieACB(movie) {
+      setIsLoading(true);
+      props.model.setCurrentMovie(movie);
       setCurrentMovie(movie);
       document.documentElement.scrollTop = 0;
     }
 
-    React.useEffect(mountACB, [currentMovie]);
+    React.useEffect(mountACB, [id]);
 
     return (
+      <Loading key={key} error={error}>
+      {!isLoading && (
       <>
-        <MovieDetails 
-        movie={currentMovie}
-        cast={castMembers} />
-        {currentMovieTrailers && renderTrailers()}
-        {recommendations.length > 0 && (
-          <MovieCarousel
-            title={"Recommendations"}
-            responsiveConfig={responsiveCards}
-            movies={recommendations}
-            onMovieChoice = {setCurrentMovieACB}
-          />
-        )}
+            <MovieDetails 
+            movie={currentMovie}
+            cast={castMembers} />
+            {currentMovieTrailers && renderTrailers()}
+            {recommendations.length > 0 && (
+              <MovieCarousel
+                title={"Recommendations"}
+                responsiveConfig={responsiveCards}
+                movies={recommendations}
+                onMovieChoice = {setCurrentMovieACB}
+              />
+            )}
       </>
+      )}
+  </Loading>
     );
 }
