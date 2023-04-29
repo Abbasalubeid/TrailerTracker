@@ -5,17 +5,25 @@ import MovieCard from "../view/movieCard.js";
 import SearchBar from "../view/searchBar.js"
 import Filter from "../view/filter.js";
 import "../styles/movieCard.css"
+import Loading from "../view/loading.js";
 
 export default function DiscoverPresenter(props){
     const [movies, setMovies] = React.useState([]);
     const [filtered, setFiltered] = React.useState([]);
     const [activeGenre, setActiveGenre] = React.useState(0);
+    const [isLoading, setIsLoading] = React.useState(true); 
+    const [error, setError] = React.useState(null); 
 
     function mountACB(){
+      setIsLoading(true);  
       discoverMovies().then((movies) => {
-        const validMovies = props.model.validMovies(movies)
-        setMovies(validMovies)
-        setFiltered(validMovies)
+        const validMovies = props.model.validMovies(movies);
+        setMovies(validMovies);
+        setFiltered(validMovies);
+        setIsLoading(false); 
+      }).catch(() => {
+        setError(new Error("We're having trouble fetching the movies. Please try again later."));   
+        setIsLoading(false);  
       });
     }
   
@@ -61,20 +69,26 @@ export default function DiscoverPresenter(props){
     React.useEffect(updateFilteredMoviesACB, [activeGenre]);
 
     return (
-        <>
-          <SearchBar
-          userSearched={handleSearchACB} />
-          <Filter 
-          setActiveFilter={setActiveGenre}
-          activeFilter={activeGenre}
-          filters={props.model.genres}/>
-          <motion.div layout={true}
-          className="movie-card">
-          <AnimatePresence>
-            {filtered &&
-              filtered.map(renderMoviesCB)}
-            </AnimatePresence>
-          </motion.div>
-        </>
-      );
+      <>
+      <SearchBar
+      userSearched={handleSearchACB} />
+      <Filter 
+      setActiveFilter={setActiveGenre}
+      activeFilter={activeGenre}
+      filters={props.model.genres}/>
+      <Loading error={error}>
+        {!isLoading && (
+          <>
+            <motion.div layout={true}
+            className="movie-card">
+            <AnimatePresence>
+              {filtered &&
+                filtered.map(renderMoviesCB)}
+              </AnimatePresence>
+            </motion.div>
+          </>
+        )}
+      </Loading>
+      </>
+    );
 }
