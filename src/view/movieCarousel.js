@@ -13,6 +13,7 @@ export default function MovieCarousel(props) {
       responsive={props.responsiveConfig} 
       keyBoardControl={true}
       partialVisible={true}
+      itemClass="carousel-item"
     >
       {props.movies &&
         props.movies.map((movie) => (
