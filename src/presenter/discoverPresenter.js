@@ -31,15 +31,21 @@ export default function DiscoverPresenter(props){
         props.model.setCurrentMovie(movie);
       }
 
-    function updateFilteredMoviesACB(){
-      if (activeGenre === 0){
-        setFiltered(movies)
+      function updateFilteredMoviesACB() {
+        if (activeGenre === 0) {
+          setFiltered(movies);
+        } else {
+          const filteredMovies = props.model.filteredMovies(activeGenre, movies);
+          if (filteredMovies.length === 0) {
+            setError(new Error(`No results found in this genre. Please try another one`));
+            setFiltered([]);
+          } else {
+            setFiltered(filteredMovies);
+            setError(null);
+          }
+        }
       }
-      else {
-      const filteredMovies = props.model.filteredMovies(activeGenre, movies)
-      setFiltered(filteredMovies)
-      }
-    }
+      
 
     function handleSearchACB(input){
       setError(null);
