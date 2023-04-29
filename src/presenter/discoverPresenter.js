@@ -42,16 +42,26 @@ export default function DiscoverPresenter(props){
     }
 
     function handleSearchACB(input){
+      setError(null);
       if (!input.trim()) {
-        mountACB();
-        return;
+          mountACB();
+          return;
       }
       getMovieByName(input).then((movies) => {
-        const validMovies = props.model.validMovies(movies)
-        setMovies(validMovies)
-        setFiltered(validMovies)
-    });
-    }
+          const validMovies = props.model.validMovies(movies);
+          if (movies.length === 0){
+            setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
+          }
+          else{
+            setMovies(validMovies);
+            setFiltered(validMovies);
+            setIsLoading(false);
+          }
+      }).catch(() => {
+        setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
+          setIsLoading(false);
+      });
+  }
 
     function renderMoviesCB(movie){
       return (
@@ -71,7 +81,8 @@ export default function DiscoverPresenter(props){
     return (
       <>
       <SearchBar
-      userSearched={handleSearchACB} />
+      userSearched={handleSearchACB}
+      hasError={error} />
       <Filter 
       setActiveFilter={setActiveGenre}
       activeFilter={activeGenre}
