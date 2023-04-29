@@ -1,0 +1,21 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 100%;
+  }
+
+.error-container {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 50vh;
+width: 100%;
+background-color: #f44336; /* red */
+color: white;
+font-size: 2rem;
+font-weight: bold;
+text-align: center;
+padding: 1rem;
+}

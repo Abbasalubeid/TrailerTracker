@@ -1,11 +1,14 @@
 import React from "react";
 import {topRatedMovies, trendingMovies, upcomingMovies} from "../model/fetchSource.js"
 import MovieCarousel from "../view/movieCarousel.js"
+import Loading from "../view/loading.js";
 
 export default function HomepagePresenter(props){
-    const [topRated, setTopRated] = React.useState([]);
-    const [trendMovies, setTrendMovies] = React.useState([]);
-    const [upcomMovies, setupcomMovies] = React.useState([]);
+  const [topRated, setTopRated] = React.useState({data: [], error: null});
+  const [trendMovies, setTrendMovies] = React.useState({data: [], error: null});
+  const [upcomMovies, setupcomMovies] = React.useState({data: [], error: null});  
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
     const responsiveCards = {
       desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -34,11 +37,32 @@ export default function HomepagePresenter(props){
       mobile4: { breakpoint: { max: 420, min: 0 }, items: 1},
     };
 
-    function mountACB(){
-        topRatedMovies().then((movies) => setTopRated(movies));
-        trendingMovies().then((movies) => setTrendMovies(movies));
-        upcomingMovies().then((movies) => setupcomMovies(movies));
-    }
+    function mountACB() {
+      Promise.allSettled([
+          topRatedMovies(),
+          trendingMovies(),
+          upcomingMovies()
+      ]).then(([topMovies, trendMoviesData, upcomMoviesData]) => {
+          if(topMovies.status === "fulfilled") {
+              setTopRated({data: topMovies.value, error: null});
+          } else {
+              setTopRated({data: [], error: topMovies.reason});
+          }
+          if(trendMoviesData.status === "fulfilled") {
+              setTrendMovies({data: trendMoviesData.value, error: null});
+          } else {
+              setTrendMovies({data: [], error: trendMoviesData.reason});
+          }
+          if(upcomMoviesData.status === "fulfilled") {
+              setupcomMovies({data: upcomMoviesData.value, error: null});
+          } else {
+              setupcomMovies({data: [], error: upcomMoviesData.reason});
+          }
+          setIsLoading(false);
+      });
+  }
+  
+  
 
     function setCurrentMovieACB(movie){
       props.model.setCurrentMovie(movie);
@@ -46,18 +70,28 @@ export default function HomepagePresenter(props){
 
     React.useEffect(mountACB, []);
 
-    return (
-      <>
-        <MovieCarousel movies={trendMovies} responsiveConfig={responsivePosters} 
-        poster={true}
-        title={"Trending"}
-        onMovieChoice = {setCurrentMovieACB}/>
-        <MovieCarousel movies={topRated} responsiveConfig={responsiveCards}
-        title={"Top rated"}
-        onMovieChoice = {setCurrentMovieACB}/>
-        <MovieCarousel movies={upcomMovies} responsiveConfig={responsiveCards} 
-        title={"Upcoming"}
-        onMovieChoice = {setCurrentMovieACB}/>
-      </>
-    );
+  return (
+    <Loading error={error}>
+{!isLoading && (
+    <>
+        {!trendMovies.error && 
+            <MovieCarousel movies={trendMovies.data} responsiveConfig={responsivePosters} 
+            poster={true}
+            title={"Trending"}
+            onMovieChoice={setCurrentMovieACB}/>
+        }
+        {!topRated.error && 
+            <MovieCarousel movies={topRated.data} responsiveConfig={responsiveCards}
+            title={"Top rated"}
+            onMovieChoice={setCurrentMovieACB}/>
+        }
+        {!upcomMovies.error && 
+            <MovieCarousel movies={upcomMovies.data} responsiveConfig={responsiveCards} 
+            title={"Upcoming"}
+            onMovieChoice={setCurrentMovieACB}/>
+        }
+    </>
+)}
+  </Loading>
+);
 }
