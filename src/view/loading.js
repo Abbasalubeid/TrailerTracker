@@ -14,9 +14,14 @@ export default function Loading({ key, error, children }) {
       return () => clearTimeout(timer); // Clean up the timer when the component unmounts
   }, [key]);
 
-  if (error && !loading) {
-    return <div className="error-container">{error.message}</div>
-}
+    if (error && !loading) {
+        return (
+          <div className="error-container">
+            <img src="/sign-error-svgrepo-com.svg"/>
+            <p>{error.message}</p>
+          </div>
+        );
+      }
 
     if (children && !loading) {
         return children;
