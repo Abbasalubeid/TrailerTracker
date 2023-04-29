@@ -59,11 +59,21 @@
   .movie-poster {
     max-width: 380px;
   }
+
+  .poster-about p {
+    font-size: 11px;
+    margin: 0 5px;
+  }
 }
 
 @media (max-width: 570px) {
   .movie-poster {
     max-width: 340px;
+  }
+  
+  .poster-about p {
+    font-size: 10px;
+    margin: 0 5px;
   }
 }
 
@@ -71,14 +81,20 @@
   .movie-poster {
     max-width: 300px;
   }
+
+  .poster-about p {
+    font-size: 9px;
+    margin: 0 5px;
+  }
 }
 
 @media (max-width: 340px) {
   .movie-poster {
     max-width: 220px;
   }
-  .poster-info {
-    font-size: 8px;
-  }
 
+  .poster-about p {
+    font-size: 8px;
+    margin: 0 5px;
+  }
 }
