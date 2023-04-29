@@ -13,7 +13,7 @@ export default function Loading({ error, children }) {
     }, []);
 
     if (error && !loading) {
-        return <div className="error-container">There was an error: {error.message}</div>
+        return <div className="error-container">{error.message}</div>
     }
 
     if (children && !loading) {
