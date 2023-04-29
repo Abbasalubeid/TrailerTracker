@@ -3,14 +3,11 @@
     flex: 1;
     padding: 1rem;
   }
+
   
-  .page-with-navbar {
-    margin-left: 10%;
-  }
-  
-  @media screen and (max-width: 1490px) {
+  @media (min-width: 1100px) {
     .page-with-navbar {
-      margin-left: 12.5%;
+      margin-left: 9.2rem;
     }
   }
 

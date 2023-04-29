@@ -2,13 +2,12 @@ import './styles/App.css';
 import HomepagePresenter from './presenter/homepagePresenter';
 import DiscoverPresenter from './presenter/discoverPresenter';
 import DetailsPresenter from './presenter/detailsPresenter';
-import { Routes, Route,Navigate } from "react-router-dom";
-import React from 'react';
+import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useState } from 'react';
 import Sidebar from './view/sidebar';
 
-
 function App(props) {
-  const [navVisible, showNavbar] = React.useState(false);
+  const [navVisible, showNavbar] = useState(false);
 
   return (
     <div>
@@ -18,7 +17,7 @@ function App(props) {
         <Route
           path="/home"
           element={
-            <div className={!navVisible ? "page" : "page page-with-navbar"}>
+            <div className={navVisible ? "page page-with-navbar" : "page"}>
               <HomepagePresenter model={props.model}></HomepagePresenter>
             </div>
           }
@@ -26,7 +25,7 @@ function App(props) {
         <Route
           path="/discover"
           element={
-            <div className={!navVisible ? "page" : "page page-with-navbar"}>
+            <div className={navVisible ? "page page-with-navbar" : "page"}>
               <DiscoverPresenter model={props.model}></DiscoverPresenter>
             </div>
           }
@@ -34,7 +33,7 @@ function App(props) {
         <Route
           path="/details/:id"
           element={
-            <div className={!navVisible ? "page" : "page page-with-navbar"}>
+            <div className={navVisible ? "page page-with-navbar" : "page"}>
               <DetailsPresenter model={props.model} />
             </div>
           }
