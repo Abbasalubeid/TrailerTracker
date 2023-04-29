@@ -30,7 +30,7 @@ export default function DetailsPresenter(props){
     };
 
     function mountACB() {
-      setIsLoading(true);
+      document.documentElement.scrollTop = 0;
       if (!(currentMovie.id == id)) {
         Promise.all([getMovieDetails(id), getVideo(id), getRecommendations(id), getCredits(id)])
           .then(([movieDetails, trailers, rec, credits]) => {
@@ -81,7 +81,6 @@ export default function DetailsPresenter(props){
       setIsLoading(true);
       props.model.setCurrentMovie(movie);
       setCurrentMovie(movie);
-      document.documentElement.scrollTop = 0;
       setLoadKey(Date.now());
     }
 
@@ -91,18 +90,18 @@ export default function DetailsPresenter(props){
       <Loading key={loadKey} error={error}>
       {!isLoading && (
       <>
-            <MovieDetails 
-            movie={currentMovie}
-            cast={castMembers} />
-            {currentMovieTrailers && renderTrailers()}
-            {recommendations.length > 0 && (
-              <MovieCarousel
-                title={"Recommendations"}
-                responsiveConfig={responsiveCards}
-                movies={recommendations}
-                onMovieChoice = {setCurrentMovieACB}
-              />
-            )}
+        <MovieDetails 
+        movie={currentMovie}
+        cast={castMembers} />
+        {currentMovieTrailers && renderTrailers()}
+        {recommendations.length > 0 && (
+          <MovieCarousel
+            title={"Recommendations"}
+            responsiveConfig={responsiveCards}
+            movies={recommendations}
+            onMovieChoice = {setCurrentMovieACB}
+          />
+        )}
       </>
       )}
   </Loading>
