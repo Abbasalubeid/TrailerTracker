@@ -76,9 +76,6 @@ export default function HomepagePresenter(props){
       });
   }
   
-  
-  
-
     function setCurrentMovieACB(movie){
       props.model.setCurrentMovie(movie);
     }
@@ -87,26 +84,26 @@ export default function HomepagePresenter(props){
 
   return (
     <Loading error={error}>
-{!isLoading && (
-    <>
-        {!trendMovies.error && 
-            <MovieCarousel movies={trendMovies.data} responsiveConfig={responsivePosters} 
-            poster={true}
-            title={"Trending"}
-            onMovieChoice={setCurrentMovieACB}/>
-        }
-        {!topRated.error && 
-            <MovieCarousel movies={topRated.data} responsiveConfig={responsiveCards}
-            title={"Top rated"}
-            onMovieChoice={setCurrentMovieACB}/>
-        }
-        {!upcomMovies.error && 
-            <MovieCarousel movies={upcomMovies.data} responsiveConfig={responsiveCards} 
-            title={"Upcoming"}
-            onMovieChoice={setCurrentMovieACB}/>
-        }
-    </>
-)}
+      {!isLoading && (
+      <>
+          {!trendMovies.error && 
+              <MovieCarousel movies={trendMovies.data} responsiveConfig={responsivePosters} 
+              poster={true}
+              title={"Trending"}
+              onMovieChoice={setCurrentMovieACB}/>
+          }
+          {!topRated.error && 
+              <MovieCarousel movies={topRated.data} responsiveConfig={responsiveCards}
+              title={"Top rated"}
+              onMovieChoice={setCurrentMovieACB}/>
+          }
+          {!upcomMovies.error && 
+              <MovieCarousel movies={upcomMovies.data} responsiveConfig={responsiveCards} 
+              title={"Upcoming"}
+              onMovieChoice={setCurrentMovieACB}/>
+          }
+      </>
+      )}
   </Loading>
 );
 }
