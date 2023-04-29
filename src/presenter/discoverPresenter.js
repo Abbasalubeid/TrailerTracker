@@ -34,6 +34,7 @@ export default function DiscoverPresenter(props){
       function updateFilteredMoviesACB() {
         if (activeGenre === 0) {
           setFiltered(movies);
+          setError(null);
         } else {
           const filteredMovies = props.model.filteredMovies(activeGenre, movies);
           if (filteredMovies.length === 0) {
