@@ -15,7 +15,8 @@ export default function DetailsPresenter(props){
     const [castMembers, setCastMembers] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
-    const [key, setKey] = React.useState(id);
+    const [loadKey, setLoadKey] = React.useState(Date.now());
+
 
     const responsiveCards = {
       desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
@@ -30,7 +31,6 @@ export default function DetailsPresenter(props){
 
     function mountACB() {
       setIsLoading(true);
-      setKey(key + 1);
       if (!(currentMovie.id == id)) {
         Promise.all([getMovieDetails(id), getVideo(id), getRecommendations(id), getCredits(id)])
           .then(([movieDetails, trailers, rec, credits]) => {
@@ -82,12 +82,13 @@ export default function DetailsPresenter(props){
       props.model.setCurrentMovie(movie);
       setCurrentMovie(movie);
       document.documentElement.scrollTop = 0;
+      setLoadKey(Date.now());
     }
 
     React.useEffect(mountACB, [id]);
 
     return (
-      <Loading key={key} error={error}>
+      <Loading key={loadKey} error={error}>
       {!isLoading && (
       <>
             <MovieDetails 
