@@ -43,24 +43,39 @@ export default function HomepagePresenter(props){
           trendingMovies(),
           upcomingMovies()
       ]).then(([topMovies, trendMoviesData, upcomMoviesData]) => {
+          let allFail = true;
+  
           if(topMovies.status === "fulfilled") {
               setTopRated({data: topMovies.value, error: null});
+              allFail = false;
           } else {
               setTopRated({data: [], error: topMovies.reason});
           }
+  
           if(trendMoviesData.status === "fulfilled") {
               setTrendMovies({data: trendMoviesData.value, error: null});
+              allFail = false;
           } else {
               setTrendMovies({data: [], error: trendMoviesData.reason});
           }
+  
           if(upcomMoviesData.status === "fulfilled") {
               setupcomMovies({data: upcomMoviesData.value, error: null});
+              allFail = false;
           } else {
               setupcomMovies({data: [], error: upcomMoviesData.reason});
           }
+  
+          if(allFail){
+            setError(new Error("Oops! Movie data isn't available. Please try again later"));
+        }
+        
+        
+  
           setIsLoading(false);
       });
   }
+  
   
   
 
