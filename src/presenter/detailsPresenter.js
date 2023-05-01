@@ -14,42 +14,54 @@ export default function DetailsPresenter(props){
     const [currentMovieTrailers, setCurrentMovieTrailers] = React.useState([]);
     const [failedTrailers, setFailedTrailers] = React.useState([]);
     const [recommendations, setRecommendations] = React.useState([]);
-    const [castMembers, setCastMembers] = React.useState([]);
+    const [credits, setCredits] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
     const [loadKey, setLoadKey] = React.useState(Date.now());
 
+    async function fetchData(fetchFunction, setData) {
+      let success = false;
+  
+      try {
+        const result = await fetchFunction();
+        setData(result);
+        success = true;
+      } catch (error) {
+        setData({ data: [], error: error.message });
+      }
+      return success;
+    }
+  
     function mountACB() {
       document.documentElement.scrollTop = 0;
-      if (!(currentMovie.id == id)) {
-        Promise.all([getMovieDetails(id), getVideo(id), getRecommendations(id), getCredits(id)])
-          .then(([movieDetails, trailers, rec, credits]) => {
-            setCurrentMovie(movieDetails);
-            setCurrentMovieTrailers(trailers);
-            setRecommendations(props.model.validMovies(rec));
-            setCastMembers(credits.cast);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            setError(new Error(`Oops! Something went wrong. ${error.message}`));
-            setIsLoading(false);
-          });
-      } else {
-        Promise.all([getVideo(currentMovie.id), getRecommendations(currentMovie.id), getCredits(currentMovie.id)])
-          .then(([trailers, rec, credits]) => {
-            setCurrentMovieTrailers(trailers);
-            setRecommendations(props.model.validMovies(rec));
-            setCastMembers(credits.cast);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            setError(new Error(`Oops! Something went wrong. ${error.message}`));
-            setIsLoading(false);
-          });
-      }
+      let fetchesSucceeded = 0;
+
+      const fetchOperations = [
+        fetchData(() => getMovieDetails(id), setCurrentMovie),
+        fetchData(() => getVideo(id), setCurrentMovieTrailers),
+        fetchData(() => getRecommendations(id), setRecommendations),
+        fetchData(() => getCredits(id), setCredits)
+      ];
+    
+      Promise.allSettled(fetchOperations).then(results => {
+        results.forEach((result) => {
+          if (result.status === 'fulfilled' && result.value === true) {
+            fetchesSucceeded += 1;
+          }
+        });
+  
+        if (fetchesSucceeded === 0) {
+          setError(new Error("We're sorry, but we are unable to fetch the data at this moment. Please ensure you're connected to the internet and try again"));
+        }
+        setIsLoading(false);
+      });
     }
     
     function renderTrailers() {
+      if (!currentMovieTrailers || currentMovieTrailers.length === 0) {
+        return null;
+      }
+
      const sortedTrailers = props.model.chooseTrailers(currentMovieTrailers)
     
       return sortedTrailers.map(trailer => {
@@ -68,7 +80,6 @@ export default function DetailsPresenter(props){
     }
 
     function setCurrentMovieACB(movie) {
-      setIsLoading(true);
       props.model.setCurrentMovie(movie);
       setCurrentMovie(movie);
       setLoadKey(Date.now());
@@ -77,21 +88,19 @@ export default function DetailsPresenter(props){
     React.useEffect(mountACB, [id]);
 
     return (
-      <Loading key={loadKey} error={error}>
-        {!isLoading && (
-          <>
-            <MovieDetails movie={currentMovie} cast={castMembers} />
-            {currentMovieTrailers && renderTrailers()}
-            {recommendations.length > 0 && (
-              <MovieCarousel
-                title={"Recommendations"}
-                numberOfItems={numberOfCards}
-                movies={recommendations}
-                onMovieChoice={setCurrentMovieACB}
-              />
-            )}
-          </>
-        )}
+      <Loading loading={isLoading} key={loadKey} error={error}>
+        <>
+          {!currentMovie.error && <MovieDetails movie={currentMovie} cast={credits.cast} />}
+          {!currentMovieTrailers.error && currentMovieTrailers.length > 0 && renderTrailers()}
+          {!recommendations.error && recommendations.length > 0 && (
+            <MovieCarousel
+              title={"Recommendations"}
+              numberOfItems={numberOfCards}
+              movies={props.model.validMovies(recommendations)}
+              onMovieChoice={setCurrentMovieACB}
+            />
+          )}
+        </>
       </Loading>
     );
 }
