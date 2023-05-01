@@ -10,6 +10,7 @@ import Loading from "../view/loading.js";
 export default function DiscoverPresenter(props){
     const [movies, setMovies] = React.useState([]);
     const [filtered, setFiltered] = React.useState([]);
+    const [searchedMovies, setSearchedMovies] = React.useState([]);
     const [activeGenre, setActiveGenre] = React.useState(0);
     const [isLoading, setIsLoading] = React.useState(true); 
     const [error, setError] = React.useState(null); 
@@ -23,8 +24,7 @@ export default function DiscoverPresenter(props){
         setFiltered(validMovies);
         setIsLoading(false); 
       }).catch(() => {
-        setError(new Error("We're having trouble fetching the movies. Please try again later."));   
-        setIsLoading(false);  
+        setError(new Error("We're having trouble fetching the movies. Please ensure you're connected to the internet and try again."));   
       });
     }
   
@@ -34,10 +34,11 @@ export default function DiscoverPresenter(props){
 
       function updateFilteredMoviesACB() {
         if (activeGenre === 0) {
-          setFiltered(movies);
+          setFiltered(searchedMovies || movies);
           setError(null);
         } else {
-          const filteredMovies = props.model.filteredMovies(activeGenre, movies);
+          const sourceMovies = searchedMovies || movies;
+          const filteredMovies = props.model.filteredMovies(activeGenre, sourceMovies);
           if (filteredMovies.length === 0) {
             setError(new Error(`No results found in this genre. Please try another one`));
             setFiltered([]);
@@ -46,30 +47,37 @@ export default function DiscoverPresenter(props){
             setError(null);
           }
         }
-      }
-      
+    }
 
-    function handleSearchACB(input){
-      setError(null);
-      if (!input.trim()) {
-          mountACB();
-          return;
-      }
-      getMovieByName(input).then((movies) => {
-          const validMovies = props.model.validMovies(movies);
-          if (validMovies.length === 0){
+      function handleSearchACB(input) {
+        if (input.trim() === "") {
+            setError(null);
+            setSearchedMovies(null);
+            updateFilteredMoviesACB();
+            return;
+        }
+        const loadingTimeout = setTimeout(() => {
+          setIsLoading(true);
+      }, 30);
+        getMovieByName(input).then((movies) => {
+            const validMovies = props.model.validMovies(movies);
+            if (validMovies.length === 0) {
+                setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
+                setIsLoading(false);
+                clearTimeout(loadingTimeout);
+  
+            } else {
+                setSearchedMovies(validMovies);
+                setError(null);
+                setIsLoading(false);
+                clearTimeout(loadingTimeout);
+            }
+        }).catch(() => {
+          clearTimeout(loadingTimeout);
             setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
-          }
-          else{
-            setMovies(validMovies);
-            setFiltered(validMovies);
             setIsLoading(false);
-          }
-      }).catch(() => {
-        setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
-          setIsLoading(false);
-      });
-  }
+        });
+    }
 
     function renderMoviesCB(movie){
       return (
@@ -81,10 +89,10 @@ export default function DiscoverPresenter(props){
           />
           : null
       );
-  }
+    }
     
     React.useEffect(mountACB, []);
-    React.useEffect(updateFilteredMoviesACB, [activeGenre]);
+    React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies]);
 
     return (
       <>
@@ -95,8 +103,7 @@ export default function DiscoverPresenter(props){
       setActiveFilter={setActiveGenre}
       activeFilter={activeGenre}
       filters={props.model.genres}/>
-      <Loading error={error}>
-        {!isLoading && (
+      <Loading loading={isLoading} error={error}>
           <>
             <motion.div layout={true}
             className="movie-card">
@@ -106,7 +113,6 @@ export default function DiscoverPresenter(props){
               </AnimatePresence>
             </motion.div>
           </>
-        )}
       </Loading>
       </>
     );
