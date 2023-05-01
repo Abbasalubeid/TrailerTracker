@@ -16,18 +16,21 @@ export default function DiscoverPresenter(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [page, setPage] = React.useState(1);
+  
 
   function fetchACB() {
     let timerId = setTimeout(() => setIsLoading(true), 50);
 
     discoverMovies(page)
-      .then((newMovies) => {
-        const validMovies = props.model.validMovies(newMovies);
-        setMovies((prevMovies) => [...prevMovies, ...validMovies]);
-        setFiltered((prevMovies) => [...prevMovies, ...validMovies]);
-        clearTimeout(timerId);
-        setIsLoading(false);
-      })
+    .then((newMovies) => {
+      const validMovies = props.model.validMovies(newMovies);
+      const moviesSet = new Set([...movies, ...validMovies]);
+      setMovies(Array.from(moviesSet));
+      const filteredSet = new Set([...filtered, ...validMovies]);
+      setFiltered(Array.from(filteredSet));
+      clearTimeout(timerId);
+      setIsLoading(false);
+    })
       .catch(() => {
         clearTimeout(timerId); 
         setError(
