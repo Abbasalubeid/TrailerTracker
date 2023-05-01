@@ -5,6 +5,8 @@ import TrailerCard from '../view/trailerCard.js';
 import {getVideo, getMovieDetails, getRecommendations, getCredits} from "../model/fetchSource.js"
 import MovieCarousel from '../view/movieCarousel.js';
 import Loading from "../view/loading.js";
+import {numberOfCards} from "../model/constants.js"
+
 
 export default function DetailsPresenter(props){
     const { id } = useParams();
@@ -16,18 +18,6 @@ export default function DetailsPresenter(props){
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
     const [loadKey, setLoadKey] = React.useState(Date.now());
-
-
-    const responsiveCards = {
-      desktop1: { breakpoint: { max: 4000, min: 1700 }, items: 9 },
-      desktop2: { breakpoint: { max: 1700, min: 1300 }, items: 7 },
-      desktop3: { breakpoint: { max: 1300, min: 1080 }, items: 6 },
-      tablet1: { breakpoint: { max: 1080, min: 805 }, items: 5 },
-      tablet2: { breakpoint: { max: 805, min: 660 }, items: 4 },
-      tablet3: { breakpoint: { max: 660, min: 510 }, items: 3 },
-      mobile1: { breakpoint: { max: 380, min: 0 }, items: 2 },
-      mobile2: { breakpoint: { max: 310, min: 0 }, items: 1 }
-    };
 
     function mountACB() {
       document.documentElement.scrollTop = 0;
@@ -41,7 +31,7 @@ export default function DetailsPresenter(props){
             setIsLoading(false);
           })
           .catch((error) => {
-            setError(error);
+            setError(new Error(`Oops! Something went wrong. ${error.message}`));
             setIsLoading(false);
           });
       } else {
@@ -53,7 +43,7 @@ export default function DetailsPresenter(props){
             setIsLoading(false);
           })
           .catch((error) => {
-            setError(error);
+            setError(new Error(`Oops! Something went wrong. ${error.message}`));
             setIsLoading(false);
           });
       }
@@ -88,22 +78,20 @@ export default function DetailsPresenter(props){
 
     return (
       <Loading key={loadKey} error={error}>
-      {!isLoading && (
-      <>
-        <MovieDetails 
-        movie={currentMovie}
-        cast={castMembers} />
-        {currentMovieTrailers && renderTrailers()}
-        {recommendations.length > 0 && (
-          <MovieCarousel
-            title={"Recommendations"}
-            responsiveConfig={responsiveCards}
-            movies={recommendations}
-            onMovieChoice = {setCurrentMovieACB}
-          />
+        {!isLoading && (
+          <>
+            <MovieDetails movie={currentMovie} cast={castMembers} />
+            {currentMovieTrailers && renderTrailers()}
+            {recommendations.length > 0 && (
+              <MovieCarousel
+                title={"Recommendations"}
+                numberOfItems={numberOfCards}
+                movies={recommendations}
+                onMovieChoice={setCurrentMovieACB}
+              />
+            )}
+          </>
         )}
-      </>
-      )}
-  </Loading>
+      </Loading>
     );
 }
