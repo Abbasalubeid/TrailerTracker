@@ -9,39 +9,40 @@ export default function HomepagePresenter(props){
   const [trendMovies, setTrendMovies] = React.useState({data: [], error: null});
   const [upcomMovies, setupcomMovies] = React.useState({data: [], error: null});  
   const [error, setError] = React.useState(null);
-  const [allFail, setAllFail] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
     async function fetchData(fetchFunction, setData) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         fetchFunction()
           .then(result => {
             setData({ data: result, error: null });
-            setAllFail(false) // If any fetch is successful, set allFail to false
-            resolve();
+            resolve(true);
+            setIsLoading(false) // Render the available data
           })
           .catch(error => {
             setData({ data: [], error: error.message });
-            resolve(); 
+            resolve(false); 
           });
       });
     }
 
     function mountACB(){
-      let fetchesFailed = 0; // Keep track of number of failed fetches
+      let fetchesSucceeded = 0;
       
       const fetchOperations = [
         fetchData(topRatedMovies, setTopRated),
         fetchData(trendingMovies, setTrendMovies),
         fetchData(upcomingMovies, setupcomMovies),
       ];
-      
-      fetchOperations.forEach(fetchOp => {
-        fetchOp.catch(() => {
-          fetchesFailed += 1;
-          if (fetchesFailed === fetchOperations.length) { 
-            setError(new Error("We're sorry, but we are unable to fetch the data at this moment. Please ensure you're connected to the internet and try again"));
-          }
-        });
+      // Use Promise.race to resolve as soon as any of the Promises resolve or reject
+      Promise.race(fetchOperations).then((success) => {
+        if (success) { // If one of the fetches is succeeded
+          fetchesSucceeded += 1;
+        }
+
+        if (fetchesSucceeded === 0) {
+          setError(new Error("We're sorry, but we are unable to fetch the data at this moment. Please ensure you're connected to the internet and try again")); // Error only when all fetches fails
+        } 
       });
     }
 
@@ -54,8 +55,7 @@ export default function HomepagePresenter(props){
 
 
     return (
-      <Loading error={error}>
-        {!allFail && (
+      <Loading loading={isLoading} error={error}>
           <>
             {!trendMovies.error && 
               <MovieCarousel 
@@ -83,7 +83,6 @@ export default function HomepagePresenter(props){
               />
             }
           </>
-        )}
       </Loading>
     );
 }
