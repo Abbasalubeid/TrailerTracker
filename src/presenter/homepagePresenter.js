@@ -28,17 +28,19 @@ export default function HomepagePresenter(props){
 
     function mountACB(){
       let fetchesSucceeded = 0;
-      
+  
       const fetchOperations = [
         fetchData(topRatedMovies, setTopRated),
         fetchData(trendingMovies, setTrendMovies),
         fetchData(upcomingMovies, setupcomMovies),
       ];
-      // Use Promise.race to resolve as soon as any of the Promises resolve or reject
-      Promise.race(fetchOperations).then((success) => {
-        if (success) { // If one of the fetches is succeeded
-          fetchesSucceeded += 1;
-        }
+      // Use Promise.allSettled to keep track of all fetches
+      Promise.allSettled(fetchOperations).then((results) => {
+        results.forEach((result) => {
+          if (result.status === 'fulfilled' && result.value === true) {
+            fetchesSucceeded += 1;
+          }
+        });
 
         if (fetchesSucceeded === 0) {
           setError(new Error("We're sorry, but we are unable to fetch the data at this moment. Please ensure you're connected to the internet and try again")); // Error only when all fetches fails
