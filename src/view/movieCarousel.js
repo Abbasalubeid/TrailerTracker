@@ -1,16 +1,17 @@
+import React from "react";
 import MovieCard from "../view/movieCard.js";
 import MoviePoster from "../view/moviePoster.js";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "../styles/movieCarousel.css"
 
-export default function MovieCarousel(props) {
+ function MovieCarousel(props) {
     const MovieComponent = props.poster ?  MoviePoster : MovieCard;
   return (
     <>
     <h1 className="title">{props.title}</h1>
     <Carousel 
-      responsive={props.responsiveConfig} 
+      responsive={props.numberOfItems} 
       keyBoardControl={true}
       partialVisible={true}
       itemClass="carousel-item"
@@ -28,3 +29,4 @@ export default function MovieCarousel(props) {
     </>
   );
 }
+export default React.memo(MovieCarousel);
