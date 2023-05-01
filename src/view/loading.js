@@ -1,14 +1,14 @@
 import React from 'react';
 import "../styles/loading.css";
 
-export default function Loading({ error, children }) {
-  const [loading, setLoading] = React.useState(true);
+export default function Loading({ loading, error, children }) {
+  const [Fixedloading, setFixedLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setLoading(true);
+    setFixedLoading(true);
 
     const timer = setTimeout(() => {
-        setLoading(false);
+      setFixedLoading(false);
     }, 500);
 
     return () => clearTimeout(timer); // Clean up the timer when the component unmounts
@@ -23,7 +23,7 @@ export default function Loading({ error, children }) {
         );
       }
 
-    if (children && !loading) {
+    if (children && !loading && !Fixedloading) {
         return children;
     }
 
