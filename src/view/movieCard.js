@@ -25,6 +25,7 @@ export default function MovieCard(props) {
          <img
               className={props.carousel ? "movie-image-carousel" : "movie-image"}
               src={`${IMAGE_URL}${props.movie.poster_path}`}
+              alt={props.movie.title}
             />
             <div className="movie-info">
               <h3>{props.movie.title}</h3>

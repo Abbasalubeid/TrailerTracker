@@ -18,6 +18,7 @@ export default function MoviePoster(props) {
           <img
             className="movie-image-carousel"
             src={`${IMAGE_URL}${props.movie.backdrop_path}`}
+            alt={props.movie.title}
           />
           <div className="poster poster-about">
             <p>{props.movie.overview}</p>
