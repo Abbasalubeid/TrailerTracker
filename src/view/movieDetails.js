@@ -14,7 +14,6 @@ export default function MovieDetails(props){
     }
   }
   
-  
   return (
     <div className="movie-details">
       <img

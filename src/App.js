@@ -3,11 +3,11 @@ import HomepagePresenter from './presenter/homepagePresenter';
 import DiscoverPresenter from './presenter/discoverPresenter';
 import DetailsPresenter from './presenter/detailsPresenter';
 import { Routes, Route, Navigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React from 'react';
 import Sidebar from './view/sidebar';
 
 function App(props) {
-  const [navVisible, showNavbar] = useState(false);
+  const [navVisible, showNavbar] = React.useState(false);
 
   return (
     <div>
