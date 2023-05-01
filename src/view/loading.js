@@ -17,7 +17,7 @@ export default function Loading({ loading, error, children }) {
     if (error && !loading) {
         return (
           <div className="error-container">
-            <img src="error-icon-25243-Windows.ico" alt='error'/>
+            <img src="/error-icon-25240.png" alt='error'/>
             <p>{error.message}</p>
           </div>
         );

@@ -3,13 +3,13 @@
   "name": "Trailer Tracker",
   "icons": [
     {
-      "src": "popcorn-png-9437.png",
+      "src": "/popcorn-png-9437.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "popcorn-png-9437.png",
+      "src": "/popcorn-png-9437.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
