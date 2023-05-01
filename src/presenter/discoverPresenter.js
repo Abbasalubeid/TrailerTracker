@@ -34,12 +34,13 @@ export default function DiscoverPresenter(props){
 
       function updateFilteredMoviesACB() {
         if (error && !error.message.toString().includes("genre")) return;
-
+      
+        const sourceMovies = searchedMovies?.length > 0 ? searchedMovies : movies;
+      
         if (activeGenre === 0) {
-          setFiltered(searchedMovies || movies);
+          setFiltered(sourceMovies);
           setError(null)
         } else {
-          const sourceMovies = searchedMovies || movies;
           const filteredMovies = props.model.filteredMovies(activeGenre, sourceMovies);
           if (filteredMovies.length === 0) {
             setError(new Error(`No results found in this genre. Please try another one`));
@@ -49,7 +50,8 @@ export default function DiscoverPresenter(props){
             setError(null);
           }
         }
-    }
+      }
+      
 
       function handleSearchACB(input) {
         if (input.trim() === "") {
