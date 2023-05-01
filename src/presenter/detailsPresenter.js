@@ -17,7 +17,7 @@ export default function DetailsPresenter(props){
     const [credits, setCredits] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
-    const [loadKey, setLoadKey] = React.useState(Date.now());
+    const [loadKey, setLoadKey] = React.useState(id);
 
     async function fetchData(fetchFunction, setData) {
       let success = false;
