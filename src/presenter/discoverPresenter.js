@@ -33,9 +33,11 @@ export default function DiscoverPresenter(props){
       }
 
       function updateFilteredMoviesACB() {
+        if (error && !error.message.toString().includes("genre")) return;
+
         if (activeGenre === 0) {
           setFiltered(searchedMovies || movies);
-          setError(null);
+          setError(null)
         } else {
           const sourceMovies = searchedMovies || movies;
           const filteredMovies = props.model.filteredMovies(activeGenre, sourceMovies);
@@ -53,12 +55,12 @@ export default function DiscoverPresenter(props){
         if (input.trim() === "") {
             setError(null);
             setSearchedMovies(null);
-            updateFilteredMoviesACB();
             return;
         }
+
         const loadingTimeout = setTimeout(() => {
           setIsLoading(true);
-      }, 30);
+        }, 30);
         getMovieByName(input).then((movies) => {
             const validMovies = props.model.validMovies(movies);
             if (validMovies.length === 0) {
@@ -74,8 +76,8 @@ export default function DiscoverPresenter(props){
             }
         }).catch(() => {
           clearTimeout(loadingTimeout);
-            setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
-            setIsLoading(false);
+          setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
+          setIsLoading(false);
         });
     }
 
