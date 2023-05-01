@@ -9,7 +9,7 @@ export default function Loading({ loading, error, children }) {
 
     const timer = setTimeout(() => {
       setFixedLoading(false);
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(timer); // Clean up the timer when the component unmounts
 }, []);
@@ -17,7 +17,7 @@ export default function Loading({ loading, error, children }) {
     if (error && !loading) {
         return (
           <div className="error-container">
-            <img src="/sign-error-svgrepo-com.svg"/>
+            <img src="/sign-error-svgrepo-com.svg" alt='error'/>
             <p>{error.message}</p>
           </div>
         );
