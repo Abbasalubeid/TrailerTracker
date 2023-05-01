@@ -5,7 +5,7 @@ const numberOfCards = {
     tablet1: { breakpoint: { max: 1080, min: 805 }, items: 5 },
     tablet2: { breakpoint: { max: 805, min: 660 }, items: 4 },
     tablet3: { breakpoint: { max: 660, min: 510 }, items: 3 },
-    mobile1: { breakpoint: { max: 380, min: 0 }, items: 2 },
+    mobile1: { breakpoint: { max: 510, min: 310 }, items: 2 },
     mobile2: { breakpoint: { max: 310, min: 0 }, items: 1 }
   };
 
