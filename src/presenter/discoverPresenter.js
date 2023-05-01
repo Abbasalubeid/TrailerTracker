@@ -15,6 +15,7 @@ export default function DiscoverPresenter(props){
     const [error, setError] = React.useState(null); 
 
     function mountACB(){
+      document.documentElement.scrollTop = 0;
       setIsLoading(true);  
       discoverMovies().then((movies) => {
         const validMovies = props.model.validMovies(movies);
@@ -56,7 +57,7 @@ export default function DiscoverPresenter(props){
       }
       getMovieByName(input).then((movies) => {
           const validMovies = props.model.validMovies(movies);
-          if (movies.length === 0){
+          if (validMovies.length === 0){
             setError(new Error(`No results found for "${input}". Please check your spelling or try using different keywords.`));
           }
           else{
