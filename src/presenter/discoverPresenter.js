@@ -5,6 +5,7 @@ import MovieCard from "../view/movieCard.js";
 import SearchBar from "../view/searchBar.js";
 import Filter from "../view/filter.js";
 import "../styles/movieCard.css";
+import "../styles/discover.css";
 import Loading from "../view/loading.js";
 
 export default function DiscoverPresenter(props) {
@@ -14,18 +15,21 @@ export default function DiscoverPresenter(props) {
   const [activeGenre, setActiveGenre] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [page, setPage] = React.useState(1);
 
-  function mountACB() {
-    document.documentElement.scrollTop = 0;
-    setIsLoading(true);
-    discoverMovies()
-      .then((movies) => {
-        const validMovies = props.model.validMovies(movies);
-        setMovies(validMovies);
-        setFiltered(validMovies);
+  function fetchACB() {
+    let timerId = setTimeout(() => setIsLoading(true), 50);
+
+    discoverMovies(page)
+      .then((newMovies) => {
+        const validMovies = props.model.validMovies(newMovies);
+        setMovies((prevMovies) => [...prevMovies, ...validMovies]);
+        setFiltered((prevMovies) => [...prevMovies, ...validMovies]);
+        clearTimeout(timerId);
         setIsLoading(false);
       })
       .catch(() => {
+        clearTimeout(timerId); 
         setError(
           new Error(
             "We're having trouble fetching the movies. Please ensure you're connected to the internet and try again."
@@ -102,17 +106,23 @@ export default function DiscoverPresenter(props) {
       });
   }
 
-  function renderMoviesCB(movie) {
+  function renderMoviesCB(movie, index) {
     return movie ? (
       <MovieCard
-        key={movie.id}
+        key={`${movie.id}_${index}`}
         movie={movie}
         onMovieChoice={setCurrentMovieACB}
       />
     ) : null;
   }
 
-  React.useEffect(mountACB, []);
+  function nextPage() {
+    if (!isLoading) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }
+
+  React.useEffect(fetchACB, [page]);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies]);
 
   return (
@@ -130,6 +140,13 @@ export default function DiscoverPresenter(props) {
               {filtered && filtered.map(renderMoviesCB)}
             </AnimatePresence>
           </motion.div>
+          {filtered && (
+            <div className="load-more-container">
+            <p className="load-more-text" onClick={nextPage} disabled={isLoading}>
+              Load More
+            </p>
+          </div>          
+          )}
         </>
       </Loading>
     </>
