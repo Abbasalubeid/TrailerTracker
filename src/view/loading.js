@@ -27,5 +27,5 @@ export default function Loading({ loading, error, children }) {
         return children;
     }
 
-    return <img className="loading-container" src="/Infinity-1s-200px.svg"/>;
+    return <img className="loading-container" src="/Infinity-1s-200px.svg"  alt="Loading"/>;
 }
