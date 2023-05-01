@@ -28,6 +28,7 @@ export default function DetailsPresenter(props){
         success = true;
       } catch (error) {
         setData({ data: [], error: error.message });
+
       }
       return success;
     }
@@ -36,12 +37,16 @@ export default function DetailsPresenter(props){
       document.documentElement.scrollTop = 0;
       let fetchesSucceeded = 0;
 
-      const fetchOperations = [
-        fetchData(() => getMovieDetails(id), setCurrentMovie),
+      let fetchOperations = [
         fetchData(() => getVideo(id), setCurrentMovieTrailers),
         fetchData(() => getRecommendations(id), setRecommendations),
         fetchData(() => getCredits(id), setCredits)
       ];
+    
+      // If currentMovie.id does not match id, fetch movie details
+      if (currentMovie.id != id) {
+        fetchOperations.unshift(fetchData(() => getMovieDetails(id), setCurrentMovie));
+      }
     
       Promise.allSettled(fetchOperations).then(results => {
         results.forEach((result) => {
