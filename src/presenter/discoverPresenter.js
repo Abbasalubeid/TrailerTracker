@@ -18,34 +18,10 @@ export default function DiscoverPresenter(props) {
   const [pages, setPages] = React.useState({});
   
 
-  function fetchACB(page = 1, activeGenre = 0) {
-    let timerId = setTimeout(() => setIsLoading(true), 80);
+  function discoverACB(page = 1, activeGenre = 0) {
+    let timerId = setTimeout(() => setIsLoading(true), 20);
 
-    discoverMovies(page, activeGenre)
-    .then((newMovies) => {
-      const validMovies = props.model.validMovies(newMovies);
-
-      let moviesMap = new Map(movies.map(movie => [movie.id, movie]));
-
-      validMovies.forEach(movie => {
-        moviesMap.set(movie.id, movie);
-      });
-
-      let filteredMap = new Map(filtered.map(movie => [movie.id, movie]));
-      validMovies.forEach(movie => {
-        filteredMap.set(movie.id, movie);
-      });
-
-      setMovies(Array.from(moviesMap.values()));
-      setFiltered(Array.from(filteredMap.values()));
-
-      setPages((prevPages) => ({
-        ...prevPages,
-        [activeGenre]: (prevPages[activeGenre] || 1) + 1,
-      }));
-      clearTimeout(timerId);
-      setIsLoading(false);
-    })
+    discoverMovies(page, activeGenre).then(handleDiscoverRequest)
       .catch(() => {
         clearTimeout(timerId); 
         setError(
@@ -53,7 +29,35 @@ export default function DiscoverPresenter(props) {
             "We're having trouble fetching the movies. Please ensure you're connected to the internet and try again."
           )
         );
+      })
+      .finally(() => {
+        clearTimeout(timerId);
+        setIsLoading(false);
       });
+  }
+
+  function handleDiscoverRequest(newMovies) {
+    const validMovies = props.model.validMovies(newMovies);
+
+    let moviesMap = new Map(movies.map(movie => [movie.id, movie]));
+
+    validMovies.forEach(movie => {
+      moviesMap.set(movie.id, movie);
+    });
+
+    let filteredMap = new Map(filtered.map(movie => [movie.id, movie]));
+    validMovies.forEach(movie => {
+      filteredMap.set(movie.id, movie);
+    });
+
+    setMovies(Array.from(moviesMap.values()));
+    setFiltered(Array.from(filteredMap.values()));
+
+    setPages((prevPages) => ({
+      ...prevPages,
+      [activeGenre]: (prevPages[activeGenre] || 1) + 1,
+    }));
+    setIsLoading(false);
   }
 
   function setCurrentMovieACB(movie) {
@@ -137,11 +141,11 @@ export default function DiscoverPresenter(props) {
   function nextPage() {
     if (!isLoading) {
       const currentPage = pages[activeGenre] || 1;
-      fetchACB(currentPage, activeGenre)
+      discoverACB(currentPage, activeGenre)
     }
   }
 
-  React.useEffect(fetchACB, []);
+  React.useEffect(discoverACB, []);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies]);
 
   return (
