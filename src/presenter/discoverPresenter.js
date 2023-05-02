@@ -16,8 +16,8 @@ export default function DiscoverPresenter(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [pages, setPages] = React.useState({});
+  const [isSearchActive, setIsSearchActive] = React.useState(false);
   
-
   function discoverACB(page = 1, activeGenre = 0) {
     let timerId = setTimeout(() => setIsLoading(true), 20);
 
@@ -93,8 +93,11 @@ export default function DiscoverPresenter(props) {
     if (input.trim() === "") {
       setError(null);
       setSearchedMovies(null);
+      setIsSearchActive(false);
       return;
     }
+    
+    setIsSearchActive(true);
 
     const loadingTimeout = setTimeout(() => {
       setIsLoading(true);
@@ -164,8 +167,8 @@ export default function DiscoverPresenter(props) {
             </AnimatePresence>
           </motion.div>
           {filtered && (
-            <div className="load-more-container">
-            <p className="load-more-text" onClick={nextPage} disabled={isLoading}>
+            <div className={isSearchActive ? "hide" : "load-more-container"}>
+            <p className="load-more-text" onClick={nextPage}>
               Load More
             </p>
           </div>          
