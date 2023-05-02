@@ -36,7 +36,13 @@ export default class MovieModel{
         function isInGenreCB(movie){
             return movie.genre_ids.includes(genre)
         }
-        const moviesSet = new Set(movies);
+
+        let enoughMovies = movies;
+        if (movies.length > 20) {
+            enoughMovies = movies.slice(0, 10);
+        }
+
+        const moviesSet = new Set(enoughMovies);
         return Array.from(moviesSet).filter(isInGenreCB);
     }
 
