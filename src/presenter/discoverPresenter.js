@@ -19,9 +19,9 @@ export default function DiscoverPresenter(props) {
   
 
   function fetchACB() {
-    let timerId = setTimeout(() => setIsLoading(true), 50);
+    let timerId = setTimeout(() => setIsLoading(true), 25);
 
-    discoverMovies(page)
+    discoverMovies(page, activeGenre)
     .then((newMovies) => {
       const validMovies = props.model.validMovies(newMovies);
       const moviesSet = new Set([...movies, ...validMovies]);
