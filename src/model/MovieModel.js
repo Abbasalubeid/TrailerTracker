@@ -28,8 +28,8 @@ export default class MovieModel{
             return movie.title && movie.poster_path && movie.release_date;
         }
 
-        const validMoviesSet = new Set(movies.filter(isValidCB));
-        return Array.from(validMoviesSet).sort(betterRankCB);
+        const validMovies = movies.filter(isValidCB)
+        return validMovies.sort(betterRankCB);
     }
 
     filteredMovies(genre, movies){
@@ -38,12 +38,11 @@ export default class MovieModel{
         }
 
         let enoughMovies = movies;
-        if (movies.length > 20) {
-            enoughMovies = movies.slice(0, 10);
+        if (movies.length > 30) {
+            enoughMovies = movies.slice(0, 20);
         }
 
-        const moviesSet = new Set(enoughMovies);
-        return Array.from(moviesSet).filter(isInGenreCB);
+        return enoughMovies.filter(isInGenreCB);
     }
 
     chooseTrailers(trailers){

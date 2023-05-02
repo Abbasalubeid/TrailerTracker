@@ -19,15 +19,26 @@ export default function DiscoverPresenter(props) {
   
 
   function fetchACB(page = 1, activeGenre = 0) {
-    let timerId = setTimeout(() => setIsLoading(true), 25);
+    let timerId = setTimeout(() => setIsLoading(true), 80);
 
     discoverMovies(page, activeGenre)
     .then((newMovies) => {
       const validMovies = props.model.validMovies(newMovies);
-      const moviesSet = new Set([...movies, ...validMovies]);
-      setMovies(Array.from(moviesSet));
-      const filteredSet = new Set([...filtered, ...validMovies]);
-      setFiltered(Array.from(filteredSet));
+
+      let moviesMap = new Map(movies.map(movie => [movie.id, movie]));
+
+      validMovies.forEach(movie => {
+        moviesMap.set(movie.id, movie);
+      });
+
+      let filteredMap = new Map(filtered.map(movie => [movie.id, movie]));
+      validMovies.forEach(movie => {
+        filteredMap.set(movie.id, movie);
+      });
+
+      setMovies(Array.from(moviesMap.values()));
+      setFiltered(Array.from(filteredMap.values()));
+
       setPages((prevPages) => ({
         ...prevPages,
         [activeGenre]: (prevPages[activeGenre] || 1) + 1,
