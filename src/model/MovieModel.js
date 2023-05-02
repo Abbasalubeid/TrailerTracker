@@ -28,16 +28,16 @@ export default class MovieModel{
             return movie.title && movie.poster_path && movie.release_date;
         }
 
-        const validMovies = movies.filter(isValidCB)
-        return validMovies.sort(betterRankCB);
+        const validMoviesSet = new Set(movies.filter(isValidCB));
+        return Array.from(validMoviesSet).sort(betterRankCB);
     }
 
     filteredMovies(genre, movies){
         function isInGenreCB(movie){
             return movie.genre_ids.includes(genre)
         }
-
-       return movies.filter(isInGenreCB);
+        const moviesSet = new Set(movies);
+        return Array.from(moviesSet).filter(isInGenreCB);
     }
 
     chooseTrailers(trailers){
