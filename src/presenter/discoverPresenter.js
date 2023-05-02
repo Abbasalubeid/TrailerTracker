@@ -15,10 +15,10 @@ export default function DiscoverPresenter(props) {
   const [activeGenre, setActiveGenre] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const [page, setPage] = React.useState(1);
+  const [pages, setPages] = React.useState({});
   
 
-  function fetchACB() {
+  function fetchACB(page = 1, activeGenre = 0) {
     let timerId = setTimeout(() => setIsLoading(true), 25);
 
     discoverMovies(page, activeGenre)
@@ -28,6 +28,10 @@ export default function DiscoverPresenter(props) {
       setMovies(Array.from(moviesSet));
       const filteredSet = new Set([...filtered, ...validMovies]);
       setFiltered(Array.from(filteredSet));
+      setPages((prevPages) => ({
+        ...prevPages,
+        [activeGenre]: (prevPages[activeGenre] || 1) + 1,
+      }));
       clearTimeout(timerId);
       setIsLoading(false);
     })
@@ -121,11 +125,12 @@ export default function DiscoverPresenter(props) {
 
   function nextPage() {
     if (!isLoading) {
-      setPage((prevPage) => prevPage + 1);
+      const currentPage = pages[activeGenre] || 1;
+      fetchACB(currentPage, activeGenre)
     }
   }
 
-  React.useEffect(fetchACB, [page]);
+  React.useEffect(fetchACB, []);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies]);
 
   return (
