@@ -4,16 +4,18 @@ import { discoverMovies, getMovieByName } from "../model/fetchSource.js";
 import MovieCard from "../view/movieCard.js";
 import SearchBar from "../view/searchBar.js";
 import Filter from "../view/filter.js";
+import SortDropdown from "../view/sortDropdown.js";
 import "../styles/movieCard.css";
 import "../styles/discover.css";
 import Loading from "../view/loading.js";
-import { genres } from "../model/constants.js"
+import { genres, sortingFilters } from "../model/constants.js"
 
 export default function DiscoverPresenter(props) {
   const [movies, setMovies] = React.useState([]);
   const [filtered, setFiltered] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [activeGenre, setActiveGenre] = React.useState(0);
+  const [activeSortingFilter, setActiveSortingFilter] = React.useState("topRatedAsc");
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [pages, setPages] = React.useState({});
@@ -66,29 +68,30 @@ export default function DiscoverPresenter(props) {
   }
 
   function updateFilteredMoviesACB() {
-    if (error && !error.message.toString().includes("genre")) return;
-
     const sourceMovies = searchedMovies?.length > 0 ? searchedMovies : movies;
 
-    if (activeGenre === 0) {
-      setFiltered(sourceMovies);
-      setError(null);
+    if (sourceMovies.length === 0) {
+      return;
+    }
+  
+    const filteredMovies = props.model.filterAndSortMovies({
+      movies: sourceMovies,
+      genre: activeGenre,
+      sortType: activeSortingFilter,
+    });
+  
+    if (filteredMovies.length === 0) {
+      const errorMessage = `No results found for the selected ${activeSortingFilter?.name?.toLowerCase()}${activeGenre > 0 ? ' in this genre' : ''}.`;
+      setError(new Error(errorMessage));
     } else {
-      const filteredMovies = props.model.filteredMovies(
-        activeGenre,
-        sourceMovies
-      );
-      if (filteredMovies.length === 0) {
-        setError(
-          new Error(`No results found in this genre. Please try another one`)
-        );
-        setFiltered([]);
-      } else {
-        setFiltered(filteredMovies);
-        setError(null);
-      }
+      setFiltered(filteredMovies);
+      setError(null);
     }
   }
+  
+  
+
+
 
   function handleSearchACB(input) {
     if (input.trim() === "") {
@@ -150,11 +153,16 @@ export default function DiscoverPresenter(props) {
   }
 
   React.useEffect(discoverACB, []);
-  React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies]);
+  React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies, activeSortingFilter]);
 
   return (
     <>
       <SearchBar userSearched={handleSearchACB} hasError={error} />
+      <SortDropdown
+        setActiveRatingFilter={setActiveSortingFilter}
+        activeRatingFilter={activeSortingFilter}
+        ratingFilters={sortingFilters}
+      />
       <Filter
         setActiveFilter={setActiveGenre}
         activeFilter={activeGenre}

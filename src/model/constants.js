@@ -37,4 +37,19 @@ const numberOfCards = {
     { id: 10752, name: "War" }
 ];
 
-export {numberOfPosters, numberOfCards, genres}
+const sortingFilters = [
+  { id: "topRatedDesc", name: "IMDB rating (High to Low)" },
+  { id: "topRatedAsc", name: "IMDB rating (Low to High)" },
+  { id: "popularityDesc", name: "Most Popular (High to Low)" },
+  { id: "popularityAsc", name: "Most Popular (Low to High)" },
+  { id: "newestFirst", name: "Newest to Oldest" },
+  { id: "oldestFirst", name: "Oldest to Newest" },
+  { id: "alphabeticalAsc", name: "Alphabetical Order (A-Z)" },
+  { id: "alphabeticalDesc", name: "Alphabetical Order (Z-A)" },
+  { id: "shuffle", name: "Random Shuffle" },
+  { id: "trendingDesc", name: "Trending (High to Low)" },
+  { id: "trendingAsc", name: "Trending (Low to High)" }
+];
+
+
+export {numberOfPosters, numberOfCards, genres, sortingFilters}
