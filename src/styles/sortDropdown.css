@@ -1,0 +1,15 @@
+.sort-dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.sort-dropdown-container select {
+    padding: 10px;
+    border: none;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-size: 16px;
+}
