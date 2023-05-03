@@ -7,6 +7,7 @@ import Filter from "../view/filter.js";
 import "../styles/movieCard.css";
 import "../styles/discover.css";
 import Loading from "../view/loading.js";
+import { genres } from "../model/constants.js"
 
 export default function DiscoverPresenter(props) {
   const [movies, setMovies] = React.useState([]);
@@ -157,7 +158,7 @@ export default function DiscoverPresenter(props) {
       <Filter
         setActiveFilter={setActiveGenre}
         activeFilter={activeGenre}
-        filters={props.model.genres}
+        filters={genres}
       />
       <Loading loading={isLoading} error={error}>
         <>
