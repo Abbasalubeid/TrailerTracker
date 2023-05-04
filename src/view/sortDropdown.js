@@ -12,8 +12,8 @@ export default function SortDropdown(props) {
         value={props.activeRatingFilter}
         onChange={ratingFilterChanged}
       >
-        <option disabled value="filters">
-        Filters
+        <option value="" selected disabled>
+          Sort
         </option>
         {props.ratingFilters.map((filter) => (
           <option key={filter.id} value={filter.id}>
