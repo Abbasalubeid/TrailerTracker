@@ -12,7 +12,7 @@ export default function SortDropdown(props) {
         value={props.activeRatingFilter}
         onChange={ratingFilterChanged}
       >
-        <option value="" selected disabled>
+        <option value="" disabled>
           Sort
         </option>
         {props.ratingFilters.map((filter) => (
