@@ -15,18 +15,19 @@ export default function DiscoverPresenter(props) {
   const [filtered, setFiltered] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [activeGenre, setActiveGenre] = React.useState(0);
-  const [activeSortingFilter, setActiveSortingFilter] = React.useState("topRatedAsc");
+  const [activeSortingFilter, setActiveSortingFilter] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [pages, setPages] = React.useState({});
   const [isSearchActive, setIsSearchActive] = React.useState(false);
   
-  function discoverACB(page = 1, activeGenre = 0) {
+  function discoverACB(page = 1, activeGenre = 0, sortBy = "", shouldReset = false) {
     let timerId = setTimeout(() => setIsLoading(true), 20);
-
-    discoverMovies(page, activeGenre).then(handleDiscoverRequest)
+  
+    discoverMovies(page, activeGenre, sortBy)
+      .then((newMovies) => handleDiscoverRequest(newMovies, shouldReset))
       .catch(() => {
-        clearTimeout(timerId); 
+        clearTimeout(timerId);
         setError(
           new Error(
             "We're having trouble fetching the movies. Please ensure you're connected to the internet and try again."
@@ -38,24 +39,32 @@ export default function DiscoverPresenter(props) {
         setIsLoading(false);
       });
   }
-
-  function handleDiscoverRequest(newMovies) {
+  
+  function handleDiscoverRequest(newMovies, shouldReset) {
     const validMovies = props.model.validMovies(newMovies);
-
-    let moviesMap = new Map(movies.map(movie => [movie.id, movie]));
-
-    validMovies.forEach(movie => {
+  
+    let moviesMap;
+    let filteredMap;
+  
+    if (shouldReset) {
+      moviesMap = new Map();
+      filteredMap = new Map();
+    } else {
+      moviesMap = new Map(movies.map((movie) => [movie.id, movie]));
+      filteredMap = new Map(filtered.map((movie) => [movie.id, movie]));
+    }
+  
+    validMovies.forEach((movie) => {
       moviesMap.set(movie.id, movie);
     });
-
-    let filteredMap = new Map(filtered.map(movie => [movie.id, movie]));
-    validMovies.forEach(movie => {
+  
+    validMovies.forEach((movie) => {
       filteredMap.set(movie.id, movie);
     });
-
+  
     setMovies(Array.from(moviesMap.values()));
     setFiltered(Array.from(filteredMap.values()));
-
+  
     setPages((prevPages) => ({
       ...prevPages,
       [activeGenre]: (prevPages[activeGenre] || 1) + 1,
@@ -69,19 +78,15 @@ export default function DiscoverPresenter(props) {
 
   function updateFilteredMoviesACB() {
     const sourceMovies = searchedMovies?.length > 0 ? searchedMovies : movies;
-
+  
     if (sourceMovies.length === 0) {
       return;
     }
   
-    const filteredMovies = props.model.filterAndSortMovies({
-      movies: sourceMovies,
-      genre: activeGenre,
-      sortType: activeSortingFilter,
-    });
+    const filteredMovies = props.model.filterAndSortMovies(sourceMovies, activeGenre);
   
     if (filteredMovies.length === 0) {
-      const errorMessage = `No results found for the selected ${activeSortingFilter?.name?.toLowerCase()}${activeGenre > 0 ? ' in this genre' : ''}.`;
+      const errorMessage = `No results found${activeGenre > 0 ? ' in this genre' : ''}`;
       setError(new Error(errorMessage));
     } else {
       setFiltered(filteredMovies);
@@ -89,10 +94,6 @@ export default function DiscoverPresenter(props) {
     }
   }
   
-  
-
-
-
   function handleSearchACB(input) {
     if (input.trim() === "") {
       setError(null);
@@ -135,6 +136,16 @@ export default function DiscoverPresenter(props) {
       });
   }
 
+  function handleSortChangeACB(newSortingFilter) {
+    setActiveSortingFilter(newSortingFilter);
+    discoverACB(1, activeGenre, newSortingFilter, true);
+  }
+
+  function handleActiveFilterChangeACB(newActiveFilter){
+    setActiveGenre(newActiveFilter)
+    setActiveSortingFilter("");
+  }
+
   function renderMoviesCB(movie, index) {
     return movie ? (
       <MovieCard
@@ -148,23 +159,27 @@ export default function DiscoverPresenter(props) {
   function nextPage() {
     if (!isLoading) {
       const currentPage = pages[activeGenre] || 1;
-      discoverACB(currentPage, activeGenre)
+      discoverACB(currentPage, activeGenre, activeSortingFilter)
     }
   }
 
   React.useEffect(discoverACB, []);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies, activeSortingFilter]);
 
+
+
   return (
     <>
+      <div className="search-container">
       <SearchBar userSearched={handleSearchACB} hasError={error} />
       <SortDropdown
-        setActiveRatingFilter={setActiveSortingFilter}
+        setActiveRatingFilter={handleSortChangeACB}
         activeRatingFilter={activeSortingFilter}
         ratingFilters={sortingFilters}
       />
+      </div>
       <Filter
-        setActiveFilter={setActiveGenre}
+        setActiveFilter={handleActiveFilterChangeACB}
         activeFilter={activeGenre}
         filters={genres}
       />

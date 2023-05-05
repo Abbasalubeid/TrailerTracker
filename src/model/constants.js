@@ -38,17 +38,14 @@ const numberOfCards = {
 ];
 
 const sortingFilters = [
-  { id: "topRatedDesc", name: "IMDB rating (High to Low)" },
-  { id: "topRatedAsc", name: "IMDB rating (Low to High)" },
-  { id: "popularityDesc", name: "Most Popular (High to Low)" },
-  { id: "popularityAsc", name: "Most Popular (Low to High)" },
-  { id: "newestFirst", name: "Newest to Oldest" },
-  { id: "oldestFirst", name: "Oldest to Newest" },
-  { id: "alphabeticalAsc", name: "Alphabetical Order (A-Z)" },
-  { id: "alphabeticalDesc", name: "Alphabetical Order (Z-A)" },
-  { id: "shuffle", name: "Random Shuffle" },
-  { id: "trendingDesc", name: "Trending (High to Low)" },
-  { id: "trendingAsc", name: "Trending (Low to High)" }
+  { id: "vote_average.desc", name: "IMDB rating (High to Low)" },
+  { id: "vote_average.asc", name: "IMDB rating (Low to High)" },
+  { id: "popularity.desc", name: "Most Popular (High to Low)" },
+  { id: "popularity.asc", name: "Most Popular (Low to High)" },
+  { id: "release_date.desc", name: "Newest to Oldest" },
+  { id: "release_date.asc", name: "Oldest to Newest" },
+  { id: "original_title.asc", name: "Alphabetical Order (A-Z)" },
+  { id: "original_title.desc", name: "Alphabetical Order (Z-A)" }
 ];
 
 

@@ -47,53 +47,13 @@ export default class MovieModel{
         return sortedTrailers;
     }
 
-    filterAndSortMovies({ movies, genre, sortType }) {
+    filterAndSortMovies(movies, genre) {
       let filteredMovies = movies.slice(0, 30)
-      
+
       // Filter movies by genre
       if (genre !== 0) {
         filteredMovies = filteredMovies.filter(movie => movie.genre_ids.includes(genre));
       }
-      
-      // Sort movies
-      switch(sortType) {
-        case "topRatedDesc":
-          filteredMovies.sort((a, b) => b.vote_average - a.vote_average);
-          break;
-        case "topRatedAsc":
-          filteredMovies.sort((a, b) => a.vote_average - b.vote_average);
-          break;
-        case "popularityDesc":
-          filteredMovies.sort((a, b) => b.popularity - a.popularity);
-          break;
-        case "popularityAsc":
-          filteredMovies.sort((a, b) => a.popularity - b.popularity);
-          break;
-        case "newestFirst":
-          filteredMovies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
-          break;
-        case "oldestFirst":
-          filteredMovies.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
-          break;
-        case "alphabeticalAsc":
-          filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        case "alphabeticalDesc":
-          filteredMovies.sort((a, b) => b.title.localeCompare(a.title));
-          break;
-        case "shuffle":
-          filteredMovies.sort(() => Math.random() - 0.5);
-          break;
-        case "trendingDesc":
-          filteredMovies.sort((a, b) => b.popularity - a.popularity || b.vote_average - a.vote_average);
-          break;
-        case "trendingAsc":
-          filteredMovies.sort((a, b) => a.popularity - b.popularity || a.vote_average - b.vote_average);
-          break;
-        default:
-          break;
-      }
-    
       return filteredMovies;
     }
     
