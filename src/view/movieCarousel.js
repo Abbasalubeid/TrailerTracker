@@ -7,6 +7,26 @@ import "../styles/movieCarousel.css"
 
  function MovieCarousel(props) {
     const MovieComponent = props.poster ?  MoviePoster : MovieCard;
+    const numSkeletons = 10;
+
+    const movieItems = props.movies.length === 0
+    ? Array.from({ length: numSkeletons }, (_, index) => (
+        <MovieComponent
+          key={index}
+          movie={null}
+          carousel={true}
+          disableClick={true}
+        />
+      ))
+    : props.movies.map((movie) => (
+        <MovieComponent
+          key={movie.id}
+          movie={movie}
+          carousel={true}
+          onMovieChoice={props.onMovieChoice}
+        />
+      ));
+
   return (
     <>
     <h1 className="title">{props.title}</h1>
@@ -16,15 +36,7 @@ import "../styles/movieCarousel.css"
       partialVisible={true}
       itemClass="carousel-item"
     >
-      {props.movies &&
-        props.movies.map((movie) => (
-          <MovieComponent
-            key={movie.id}
-            movie={movie}
-            carousel={true}
-            onMovieChoice = {props.onMovieChoice}
-          />
-        ))}
+      {movieItems}
     </Carousel>
     </>
   );

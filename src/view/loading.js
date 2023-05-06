@@ -2,17 +2,17 @@ import React from "react";
 import "../styles/loading.css";
 
 export default function Loading({ loading, error, children }) {
-  const [Fixedloading, setFixedLoading] = React.useState(true);
+  // const [Fixedloading, setFixedLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    setFixedLoading(true);
+  // React.useEffect(() => {
+  //   setFixedLoading(true);
 
-    const timer = setTimeout(() => {
-      setFixedLoading(false);
-    }, 200);
+  //   const timer = setTimeout(() => {
+  //     setFixedLoading(false);
+  //   }, 200);
 
-    return () => clearTimeout(timer); // Clean up the timer when the component unmounts
-  }, []);
+  //   return () => clearTimeout(timer); // Clean up the timer when the component unmounts
+  // }, []);
 
   if (error && !loading) {
     return (
@@ -23,7 +23,7 @@ export default function Loading({ loading, error, children }) {
     );
   }
 
-  if (children && !loading && !Fixedloading) {
+  if (children && !loading ) {
     return children;
   }
 

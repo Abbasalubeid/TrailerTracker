@@ -9,7 +9,6 @@ export default function HomepagePresenter(props){
   const [trendMovies, setTrendMovies] = React.useState({data: [], error: null});
   const [upcomMovies, setupcomMovies] = React.useState({data: [], error: null});  
   const [error, setError] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(true);
 
     async function fetchData(fetchFunction, setData) {
       return new Promise((resolve) => {
@@ -17,7 +16,6 @@ export default function HomepagePresenter(props){
           .then(result => {
             setData({ data: result, error: null });
             resolve(true);
-            setIsLoading(false) // Render the available data
           })
           .catch(error => {
             setData({ data: [], error: error.message });
@@ -57,7 +55,7 @@ export default function HomepagePresenter(props){
 
 
     return (
-      <Loading loading={isLoading} error={error}>
+      <Loading loading={false} error={error}>
           <>
             {!trendMovies.error && 
               <MovieCarousel 
@@ -74,6 +72,7 @@ export default function HomepagePresenter(props){
                 numberOfItems={numberOfCards}
                 title={"Top rated"}
                 onMovieChoice={setCurrentMovieACB}
+
               />
             }
             {!upcomMovies.error && 
