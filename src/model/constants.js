@@ -44,8 +44,6 @@ const sortingFilters = [
   { id: "popularity.asc", name: "Most Popular (Low to High)" },
   { id: "release_date.desc", name: "Newest to Oldest" },
   { id: "release_date.asc", name: "Oldest to Newest" },
-  { id: "original_title.asc", name: "Alphabetical Order (A-Z)" },
-  { id: "original_title.desc", name: "Alphabetical Order (Z-A)" }
 ];
 
 
