@@ -20,13 +20,11 @@ export default function TrailerCard(props) {
       <div className="trailer-vid">
         {!isReady && (
           <SkeletonTheme
-          baseColor="rgba(23, 23, 23, 1)"
-            highlightColor="#ffffff"
+          baseColor="rgba(16, 16, 16, 1)"
+          highlightColor="#838383"
           >
             <Skeleton
-              width="100%"
-              height="0"
-              style={{ paddingTop: "56.25%", borderRadius: "25px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", transition: "all 0.3s ease-in-out" }}
+             height={450} duration={2}
             />
           </SkeletonTheme>
         )}
