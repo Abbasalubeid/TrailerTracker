@@ -47,7 +47,7 @@ export default class MovieModel{
         return sortedTrailers;
     }
 
-    filterAndSortMovies(movies, genre) {
+    filterMovies(movies, genre) {
       let filteredMovies = movies.slice(0, 30)
 
       // Filter movies by genre
@@ -56,7 +56,31 @@ export default class MovieModel{
       }
       return filteredMovies;
     }
-    
 
-    
+    sortedMovies(validMovies, activeSortingFilter) {
+
+      if (!activeSortingFilter) {
+        return validMovies;
+      }
+      validMovies.sort((a, b) => {
+        switch (activeSortingFilter) {
+          case "vote_average.desc":
+            return b.vote_average - a.vote_average;
+          case "vote_average.asc":
+            return a.vote_average - b.vote_average;
+          case "popularity.desc":
+            return b.popularity - a.popularity;
+          case "popularity.asc":
+            return a.popularity - b.popularity;
+          case "release_date.desc":
+            return new Date(b.release_date) - new Date(a.release_date);
+          case "release_date.asc":
+            return new Date(a.release_date) - new Date(b.release_date);
+          default:
+            return 0;
+        }
+      });
+
+      return validMovies;
+    }
 }

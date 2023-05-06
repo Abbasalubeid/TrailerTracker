@@ -19,11 +19,11 @@ export default function DiscoverPresenter(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [pages, setPages] = React.useState({});
-  const [isSearchActive, setIsSearchActive] = React.useState(false);
+  const [searchInput, setSearchInput] = React.useState("");
   
   function discoverACB(page = 1, activeGenre = 0, sortBy = "", shouldReset = false) {
-    let timerId = setTimeout(() => setIsLoading(true), 20);
-  
+    let timerId = setTimeout(() => setIsLoading(true), 30);
+
     discoverMovies(page, activeGenre, sortBy)
       .then((newMovies) => handleDiscoverRequest(newMovies, shouldReset))
       .catch(() => {
@@ -65,7 +65,8 @@ export default function DiscoverPresenter(props) {
     setMovies(Array.from(moviesMap.values()));
     setFiltered(Array.from(filteredMap.values()));
   
-    setPages((prevPages) => ({
+    setPages((prevPages) => (
+      {
       ...prevPages,
       [activeGenre]: (prevPages[activeGenre] || 1) + 1,
     }));
@@ -83,7 +84,7 @@ export default function DiscoverPresenter(props) {
       return;
     }
   
-    const filteredMovies = props.model.filterAndSortMovies(sourceMovies, activeGenre);
+    const filteredMovies = props.model.filterMovies(sourceMovies, activeGenre);
   
     if (filteredMovies.length === 0) {
       const errorMessage = `No results found${activeGenre > 0 ? ' in this genre' : ''}`;
@@ -95,21 +96,21 @@ export default function DiscoverPresenter(props) {
   }
   
   function handleSearchACB(input) {
+    setSearchInput(input);
+    
     if (input.trim() === "") {
       setError(null);
       setSearchedMovies(null);
-      setIsSearchActive(false);
       return;
     }
-    
-    setIsSearchActive(true);
 
     const loadingTimeout = setTimeout(() => {
       setIsLoading(true);
     }, 30);
     getMovieByName(input)
       .then((movies) => {
-        const validMovies = props.model.validMovies(movies);
+        let validMovies = props.model.validMovies(movies);
+        validMovies = props.model.sortedMovies(validMovies, activeSortingFilter);
         if (validMovies.length === 0) {
           setError(
             new Error(
@@ -136,14 +137,32 @@ export default function DiscoverPresenter(props) {
       });
   }
 
-  function handleSortChangeACB(newSortingFilter) {
-    setActiveSortingFilter(newSortingFilter);
-    discoverACB(1, activeGenre, newSortingFilter, true);
+  function onSortChangeACB() {    
+    setPages((prevPages) => ({
+      ...prevPages,
+      [activeGenre]: 1,
+    }));
+    
+    if (searchInput != "") {
+      handleSearchACB(searchInput);
+    } else {
+      discoverACB(1, activeGenre, activeSortingFilter, true);
+    }
+    
   }
 
   function handleActiveFilterChangeACB(newActiveFilter){
     setActiveGenre(newActiveFilter)
-    setActiveSortingFilter("");
+  
+    if (searchInput != "") {
+      return;
+    } else {
+      setActiveSortingFilter("");
+    }
+  }
+
+  function handleSortChangeACB(newSortingFilter) {
+    setActiveSortingFilter(newSortingFilter);
   }
 
   function renderMoviesCB(movie, index) {
@@ -165,8 +184,7 @@ export default function DiscoverPresenter(props) {
 
   React.useEffect(discoverACB, []);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies, activeSortingFilter]);
-
-
+  React.useEffect(onSortChangeACB, [activeSortingFilter]);
 
   return (
     <>
@@ -191,7 +209,7 @@ export default function DiscoverPresenter(props) {
             </AnimatePresence>
           </motion.div>
           {filtered && (
-            <div className={isSearchActive ? "hide" : "load-more-container"}>
+            <div className={searchInput != "" ? "hide" : "load-more-container"}>
             <p className="load-more-text" onClick={nextPage}>
               Load More
             </p>
