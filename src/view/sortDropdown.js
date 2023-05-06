@@ -13,7 +13,7 @@ export default function SortDropdown(props) {
         onChange={ratingFilterChanged}
       >
         <option value="" disabled>
-          Sort
+          Filter
         </option>
         {props.ratingFilters.map((filter) => (
           <option key={filter.id} value={filter.id}>

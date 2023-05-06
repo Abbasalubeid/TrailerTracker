@@ -1,7 +1,7 @@
 .sort-dropdown-container {
     position: relative;
     display: inline-block;
-    bottom: 0.3rem;
+    top: 1.2rem;
   }
   
   .sort-dropdown-container select {
@@ -9,6 +9,7 @@
     height: 2rem;
     font-size: 1rem;
     padding-left: 0.625rem;
+    padding-right: 1.7rem;
     border: 1px solid #ccc;
     border-radius: 2rem;
     background-color: #fff;
@@ -30,5 +31,4 @@
     outline: none;
     border-color: #aaa;
   }
-  
   
