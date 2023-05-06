@@ -23,12 +23,12 @@ export default function DetailsPresenter(props) {
   const [error, setError] = React.useState(null);
   const [loadKey, setLoadKey] = React.useState(id);
 
-  async function fetchData(fetchFunction, setData) {
+  async function fetchData(fetchFunction, setData, transformData = (data) => data) {
     let success = false;
 
     try {
       const result = await fetchFunction();
-      setData(result);
+      setData(transformData(result));
       success = true;
     } catch (error) {
       setData({ data: [], error: error.message });
@@ -42,7 +42,7 @@ export default function DetailsPresenter(props) {
 
     let fetchOperations = [
       fetchData(() => getVideo(id), setCurrentMovieTrailers),
-      fetchData(() => getRecommendations(id), setRecommendations),
+      fetchData(() => getRecommendations(id), setRecommendations, props.model.validMovies),
       fetchData(() => getCredits(id), setCredits),
     ];
 
@@ -105,23 +105,27 @@ export default function DetailsPresenter(props) {
   React.useEffect(mountACB, [id]);
 
   return (
-    <Loading loading={isLoading} key={loadKey} error={error}>
-      <>
-        {!currentMovie.error && (
-          <MovieDetails movie={currentMovie} cast={credits.cast} />
-        )}
-        {!currentMovieTrailers.error &&
-          currentMovieTrailers.length > 0 &&
-          renderTrailers()}
-        {!recommendations.error && recommendations.length > 0 && (
+    <>
+      <Loading loading={isLoading} key={loadKey} error={error}>
+        <div>
+          {!currentMovie.error && (
+            <MovieDetails movie={currentMovie} cast={credits.cast} />
+          )}
+          {!currentMovieTrailers.error &&
+            currentMovieTrailers.length > 0 &&
+            renderTrailers()}
+        </div>
+      </Loading>
+      {!recommendations.error && recommendations.length > 0 && (
           <MovieCarousel
             title={"Recommendations"}
             numberOfItems={numberOfCards}
-            movies={props.model.validMovies(recommendations)}
+            movies={recommendations}
             onMovieChoice={setCurrentMovieACB}
           />
         )}
-      </>
-    </Loading>
+    </>
+
   );
 }
+
