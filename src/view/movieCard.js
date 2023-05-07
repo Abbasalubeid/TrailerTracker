@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { IMAGE_URL } from "../model/apiConfig.js";
 import "../styles/movieCard.css";
