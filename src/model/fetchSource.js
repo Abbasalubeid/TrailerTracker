@@ -25,7 +25,8 @@ function trendingMovies(){
 }
 
 function upcomingMovies(){
-    return fetch(`${BASE_URL}movie/upcoming?api_key=${API_KEY}`).then(treatHTTPResponseACB).then(transformACB);
+  return fetch(`${BASE_URL}movie/upcoming?api_key=${API_KEY}&primary_release_date.gte=${new Date().toISOString()}&primary_release_date.lte=${new Date(new Date().getFullYear() + 1, 0, 1).toISOString()}`)
+  .then(treatHTTPResponseACB).then(transformACB);
 }
 
 function discoverMovies(page, genre = 0, sortBy = "", minVoteCount = 500) {
