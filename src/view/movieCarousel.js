@@ -6,8 +6,16 @@ import "react-multi-carousel/lib/styles.css";
 import "../styles/movieCarousel.css"
 
  function MovieCarousel(props) {
+  const [slideIndex, setSlideIndex] = React.useState(0);
+  const [carouselKey, setCarouselKey] = React.useState(0);
     const MovieComponent = props.poster ?  MoviePoster : MovieCard;
     const numSkeletons = 10;
+
+    React.useEffect(() => {
+      // Reset slide index and carousel key when new movies are loaded
+      setSlideIndex(0);
+      setCarouselKey((prevKey) => prevKey + 1);
+    }, [props.movies]);
 
     const movieItems = props.movies.length === 0
     ? Array.from({ length: numSkeletons }, (_, index) => (
@@ -35,6 +43,8 @@ import "../styles/movieCarousel.css"
       keyBoardControl={true}
       partialVisible={true}
       itemClass="carousel-item"
+      slide={slideIndex}
+      key={carouselKey}
     >
       {movieItems}
     </Carousel>
