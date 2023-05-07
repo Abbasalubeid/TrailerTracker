@@ -1,8 +1,8 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { discoverMovies, getMovieByName } from "../model/fetchSource.js";
+import { discoverMovies} from "../model/fetchSource.js";
 import MovieCard from "../view/movieCard.js";
-import SearchBar from "../view/searchBar.js";
+import SearchBarPresenter from "./searchBarPresenter.js";
 import Filter from "../view/filter.js";
 import SortDropdown from "../view/sortDropdown.js";
 import "../styles/movieCard.css";
@@ -19,7 +19,8 @@ export default function DiscoverPresenter(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [pages, setPages] = React.useState({});
-  const [searchInput, setSearchInput] = React.useState("");
+  const [activeSearch, setActiveSearch] = React.useState(false);
+  const searchBarPresenterRef = React.useRef(null);
   
   function discoverACB(page = 1, activeGenre = 0, sortBy = "", shouldReset = false) {
     let timerId = setTimeout(() => setIsLoading(true), 30);
@@ -78,6 +79,9 @@ export default function DiscoverPresenter(props) {
   }
 
   function updateFilteredMoviesACB() {
+    if (error && error.message.includes("spelling")) {
+      return;
+    }
     const sourceMovies = searchedMovies?.length > 0 ? searchedMovies : movies;
   
     if (sourceMovies.length === 0) {
@@ -94,75 +98,41 @@ export default function DiscoverPresenter(props) {
       setError(null);
     }
   }
-  
-  function handleSearchACB(input) {
-    setSearchInput(input);
-    
-    if (input.trim() === "") {
-      setError(null);
-      setSearchedMovies(null);
-      return;
-    }
 
-    const loadingTimeout = setTimeout(() => {
-      setIsLoading(true);
-    }, 30);
-    getMovieByName(input)
-      .then((movies) => {
-        let validMovies = props.model.validMovies(movies);
-        validMovies = props.model.sortedMovies(validMovies, activeSortingFilter);
-        if (validMovies.length === 0) {
-          setError(
-            new Error(
-              `No results found for "${input}". Please check your spelling or try using different keywords.`
-            )
-          );
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
-        } else {
-          setSearchedMovies(validMovies);
-          setError(null);
-          setIsLoading(false);
-          clearTimeout(loadingTimeout);
-        }
-      })
-      .catch(() => {
-        clearTimeout(loadingTimeout);
-        setError(
-          new Error(
-            `No results found for "${input}". Please check your spelling or try using different keywords.`
-          )
-        );
-        setIsLoading(false);
-      });
+  function triggerSearch() {
+    if (activeSearch) {
+      searchBarPresenterRef.current.search();
+    } else {
+      discoverACB(1, activeGenre, activeSortingFilter, true);
+    }
   }
 
-  function onSortChangeACB() {    
+  function sortHasChangedACB() {
     setPages((prevPages) => ({
       ...prevPages,
       [activeGenre]: 1,
     }));
-    
-    if (searchInput != "") {
-      handleSearchACB(searchInput);
-    } else {
-      discoverACB(1, activeGenre, activeSortingFilter, true);
-    }
-    
+  
+    triggerSearch();
   }
 
   function handleActiveFilterChangeACB(newActiveFilter){
     setActiveGenre(newActiveFilter)
   
-    if (searchInput != "") {
+    if (activeSearch) {
       return;
     } else {
       setActiveSortingFilter("");
     }
   }
 
-  function handleSortChangeACB(newSortingFilter) {
-    setActiveSortingFilter(newSortingFilter);
+  function onActiveSearchACB(){
+    if(activeSearch){
+      return;
+    }
+    else{
+      setActiveSortingFilter("")
+    }
   }
 
   function renderMoviesCB(movie, index) {
@@ -184,14 +154,24 @@ export default function DiscoverPresenter(props) {
 
   React.useEffect(discoverACB, []);
   React.useEffect(updateFilteredMoviesACB, [activeGenre, searchedMovies, activeSortingFilter]);
-  React.useEffect(onSortChangeACB, [activeSortingFilter]);
+  React.useEffect(sortHasChangedACB, [activeSortingFilter]);
+  React.useEffect(onActiveSearchACB, [activeSearch]);
 
   return (
     <>
       <div className="search-container">
-      <SearchBar userSearched={handleSearchACB} hasError={error} />
+      <SearchBarPresenter
+        model={props.model}
+        ref={searchBarPresenterRef}
+        setIsLoading={setIsLoading}
+        setError={setError}
+        setSearchedMovies={setSearchedMovies}
+        setActiveSearch={setActiveSearch}
+        activeSortingFilter={activeSortingFilter}
+      />
+
       <SortDropdown
-        setActiveRatingFilter={handleSortChangeACB}
+        setActiveSortingFilter={setActiveSortingFilter}
         activeRatingFilter={activeSortingFilter}
         ratingFilters={sortingFilters}
       />
@@ -209,7 +189,7 @@ export default function DiscoverPresenter(props) {
             </AnimatePresence>
           </motion.div>
           {filtered && (
-            <div className={searchInput != "" ? "hide" : "load-more-container"}>
+            <div className={activeSearch ? "hide" : "load-more-container"}>
             <p className="load-more-text" onClick={nextPage}>
               Load More
             </p>
