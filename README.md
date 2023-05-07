@@ -45,7 +45,7 @@ cd TrailerTracker
 </code></pre>
 
 <ol start="4">
-  <li>Create a file called apiConfig.js with the following information:</li>
+  <li>Inside TrailerTracker/src/model, create a file called apiConfig.js the with the following information:</li>
 </ol>
 
 <pre><code>const BASE_URL = "https://api.themoviedb.org/3/";
