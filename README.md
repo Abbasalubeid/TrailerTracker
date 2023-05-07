@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Trailer Tracker</h1>
-<p>A simple website for users who want to discover popular movies, filter them by IMDb ratings, and learn more about individual films. The website uses the Model-View-Presenter (MVP) design pattern, which separates the application's code into three distinct layers, making it more modular and easier to maintain. The data for the movies is fetched from <a href="https://www.themoviedb.org/documentation/api" target="_blank">The Movie Database API</a>, a powerful and widely-used source for movie details. Visit the live website to explore movies at <a href="https://abbasalubeidtrailertracker.netlify.app/" target="_blank">https://abbasalubeidtrailertracker.netlify.app/</a>.</p>
+<p>A simple React-based web application for users who want to discover popular movies, filter them by IMDb ratings, and learn more about individual films. The website uses the Model-View-Presenter (MVP) design pattern, which separates the application's code into three distinct layers, making it more modular and easier to maintain. The data for the movies is fetched from <a href="https://www.themoviedb.org/documentation/api" target="_blank">The Movie Database API</a>, a powerful and widely-used source for movie details. Visit the live website to explore movies at <a href="https://abbasalubeidtrailertracker.netlify.app/" target="_blank">https://abbasalubeidtrailertracker.netlify.app/</a>.</p>
 
 
 <h2>Table of Contents</h2>
