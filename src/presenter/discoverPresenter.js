@@ -23,7 +23,7 @@ export default function DiscoverPresenter(props) {
   const searchBarPresenterRef = React.useRef(null);
   
   function discoverACB(page = 1, activeGenre = 0, sortBy = "", shouldReset = false) {
-    let timerId = setTimeout(() => setIsLoading(true), 30);
+    let timerId = setTimeout(() => setIsLoading(true), 20);
 
     discoverMovies(page, activeGenre, sortBy)
       .then((newMovies) => handleDiscoverRequest(newMovies, shouldReset))
@@ -91,6 +91,10 @@ export default function DiscoverPresenter(props) {
     const filteredMovies = props.model.filterMovies(sourceMovies, activeGenre);
   
     if (filteredMovies.length === 0) {
+      if(!activeSearch){
+        discoverACB(1, activeGenre, activeSortingFilter, true);
+        return;
+      }
       const errorMessage = `No results found${activeGenre > 0 ? ' in this genre' : ''}`;
       setError(new Error(errorMessage));
     } else {
