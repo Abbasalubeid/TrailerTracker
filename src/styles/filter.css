@@ -31,8 +31,8 @@
 @media (max-width: 600px) {
 
     .filter-container button {
-      width: 7rem;
-      padding: 0.5rem 1rem;
+      width: 6rem;
+      padding: 0.5rem 0.5rem;
       margin-right: 0.25rem;
       margin-bottom: 0.5rem;
     }
