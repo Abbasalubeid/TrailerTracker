@@ -69,12 +69,18 @@
 
 @media (min-width: 1024px) and (max-width: 1279px) {
   .movie-card {
-    grid-template-columns: repeat(4, minmax(250px, calc(25% - 1rem)));
+    grid-template-columns: repeat(auto-fit, minmax(250px, calc(25% - 1rem)));
   }
 }
 
 @media (min-width: 1280px) {
   .movie-card {
-    grid-template-columns: repeat(5, minmax(250px, calc(20% - 1rem)));
+    grid-template-columns: repeat(auto-fit, minmax(250px, calc(20% - 1rem)));
+  }
+}
+
+@media (max-width: 550px) {
+  .movie-card {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 }
