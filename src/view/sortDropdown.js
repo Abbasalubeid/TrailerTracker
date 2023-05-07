@@ -3,7 +3,7 @@ import "../styles/sortDropdown.css";
 
 export default function SortDropdown(props) {
   function ratingFilterChanged(event) {
-    props.setActiveRatingFilter(event.target.value);
+    props.setActiveSortingFilter(event.target.value);
   }
 
   return (
