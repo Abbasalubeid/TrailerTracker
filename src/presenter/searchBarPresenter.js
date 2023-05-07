@@ -5,6 +5,7 @@ import { getMovieByName } from "../model/fetchSource.js";
 function SearchBarPresenter(props, ref) {
   const [inputError, setInputError] = React.useState(false);
   const [searchInput, setSearchInput] = React.useState("");
+  const [controller, setController] = React.useState(null);
 
   function onUserSearched(input){
     setSearchInput(input)
@@ -18,11 +19,17 @@ function SearchBarPresenter(props, ref) {
     }
     props.setActiveSearch(true);
 
+    if (controller) {
+      controller.abort();
+    }
+    const newController = new AbortController();
+    setController(newController);
+
     const loadingTimeout = setTimeout(() => {
       props.setIsLoading(true);
     }, 30);
 
-    getMovieByName(searchInput)
+    getMovieByName(searchInput, { signal: newController.signal })
       .then((movies) => {
         let validMovies = props.model.validMovies(movies);
         validMovies = props.model.sortedMovies(validMovies, props.activeSortingFilter);
@@ -62,6 +69,13 @@ function SearchBarPresenter(props, ref) {
     };
   });
 
+  React.useEffect(() => {
+    return () => {
+      if (controller) {
+        controller.abort();
+      }
+    };
+  }, [controller]);
   React.useEffect(handleSearchACB, [searchInput]);
 
   return <SearchBar userSearched={onUserSearched} hasError={inputError} />;
